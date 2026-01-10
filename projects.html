@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bilal Ahmad's Projects - View all my creative development work">
+    <meta name="keywords" content="Bilal Ahmad, Projects, Portfolio, Web Developer">
+    <meta name="author" content="Bilal Ahmad">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <title>Projects | Bilal Ahmad</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Projects Page Specific Styles */
+        .projects-page {
+            min-height: 100vh;
+            padding: var(--space-xl) var(--space-lg);
+            padding-top: 100px;
+        }
+
+        .projects-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .projects-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-md);
+        }
+
+        .projects-header h1 .accent {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .projects-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            transition: gap 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: var(--space-sm);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+        }
+
+        /* Static project cards for gallery */
+        .gallery-card {
+            position: relative;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px var(--glass-shadow);
+        }
+
+        .gallery-card .card-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .gallery-card:hover .card-glow {
+            opacity: 0.3;
+        }
+
+        .gallery-card .card-content {
+            position: relative;
+            padding: var(--space-xl);
+            z-index: 2;
+        }
+
+        .gallery-card .project-number {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: var(--space-sm);
+        }
+
+        .gallery-card .project-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .gallery-card .project-type {
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-md);
+        }
+
+        .gallery-card .project-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+        }
+
+        .gallery-card .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-lg);
+        }
+
+        .gallery-card .project-tech span {
+            padding: 4px 12px;
+            background: var(--shape-color-1);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .gallery-card .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: gap 0.3s ease;
+        }
+
+        .gallery-card .project-link:hover {
+            gap: var(--space-sm);
+        }
+
+        /* Project-specific backgrounds */
+        .gallery-card[data-project="1"] {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('assets/pppq.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="1"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="1"] .project-type {
+            color: #fbbf24;
+        }
+
+        .gallery-card[data-project="1"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="1"] .project-tech span {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-card[data-project="1"] .project-link {
+            color: #60a5fa;
+        }
+
+        .gallery-card[data-project="1"] .project-number {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-card[data-project="2"] {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(245, 245, 245, 0.95)), url('assets/cpc.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="2"] .project-name {
+            color: #1a1a2e;
+        }
+
+        .gallery-card[data-project="2"] .project-type {
+            color: #2d8a4e;
+        }
+
+        .gallery-card[data-project="2"] .project-desc {
+            color: #333;
+        }
+
+        .gallery-card[data-project="2"] .project-tech span {
+            background: rgba(45, 138, 78, 0.15);
+            color: #2d8a4e;
+            border: 1px solid rgba(45, 138, 78, 0.3);
+        }
+
+        .gallery-card[data-project="2"] .project-link {
+            color: #2d8a4e;
+        }
+
+        .gallery-card[data-project="2"] .project-number {
+            color: rgba(45, 138, 78, 0.3);
+        }
+
+        .gallery-card[data-project="3"] {
+            background: linear-gradient(to bottom, rgba(20, 20, 35, 0.75), rgba(30, 25, 40, 0.9)), url('assets/aurora.webp');
+            background-size: cover;
+            background-position: center top;
+        }
+
+        .gallery-card[data-project="3"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="3"] .project-type {
+            color: #ec4899;
+        }
+
+        .gallery-card[data-project="3"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="3"] .project-tech span {
+            background: rgba(236, 72, 153, 0.2);
+            color: #f9a8d4;
+            border: 1px solid rgba(236, 72, 153, 0.4);
+        }
+
+        .gallery-card[data-project="3"] .project-link {
+            color: #22d3ee;
+        }
+
+        .gallery-card[data-project="3"] .project-number {
+            color: rgba(236, 72, 153, 0.4);
+        }
+
+        .gallery-card[data-project="4"] {
+            background: linear-gradient(to bottom, rgba(15, 35, 35, 0.8), rgba(10, 30, 30, 0.95)), url('assets/basepy.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="4"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="4"] .project-type {
+            color: #5eead4;
+        }
+
+        .gallery-card[data-project="4"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="4"] .project-tech span {
+            background: rgba(94, 234, 212, 0.2);
+            color: #5eead4;
+            border: 1px solid rgba(94, 234, 212, 0.4);
+        }
+
+        .gallery-card[data-project="4"] .project-link {
+            color: #5eead4;
+        }
+
+        .gallery-card[data-project="4"] .project-number {
+            color: rgba(94, 234, 212, 0.3);
+        }
+
+        .gallery-card[data-project="5"] {
+            background: linear-gradient(to bottom, rgba(50, 80, 100, 0.8), rgba(30, 60, 80, 0.95)), url('assets/pomodash.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="5"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="5"] .project-type {
+            color: #fbbf24;
+        }
+
+        .gallery-card[data-project="5"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="5"] .project-tech span {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fcd34d;
+            border: 1px solid rgba(251, 191, 36, 0.4);
+        }
+
+        .gallery-card[data-project="5"] .project-link {
+            color: #38bdf8;
+        }
+
+        .gallery-card[data-project="5"] .project-number {
+            color: rgba(251, 191, 36, 0.3);
+        }
+
+        .gallery-card[data-project="6"] {
+            background: linear-gradient(to bottom, rgba(30, 64, 175, 0.85), rgba(20, 50, 140, 0.95)), url('assets/financetracker.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="6"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="6"] .project-type {
+            color: #f472b6;
+        }
+
+        .gallery-card[data-project="6"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="6"] .project-tech span {
+            background: rgba(244, 114, 182, 0.2);
+            color: #f9a8d4;
+            border: 1px solid rgba(244, 114, 182, 0.4);
+        }
+
+        .gallery-card[data-project="6"] .project-link {
+            color: #7dd3fc;
+        }
+
+        .gallery-card[data-project="6"] .project-number {
+            color: rgba(244, 114, 182, 0.3);
+        }
+
+        .gallery-card[data-project="7"] {
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.85), rgba(5, 5, 5, 0.95)), url('assets/ytmp3.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="7"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="7"] .project-type {
+            color: #ef4444;
+        }
+
+        .gallery-card[data-project="7"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="7"] .project-tech span {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .gallery-card[data-project="7"] .project-link {
+            color: #38bdf8;
+        }
+
+        .gallery-card[data-project="7"] .project-number {
+            color: rgba(239, 68, 68, 0.3);
+        }
+
+        .gallery-card[data-project="8"] {
+            background: linear-gradient(to bottom, rgba(10, 20, 40, 0.85), rgba(5, 15, 35, 0.95)), url('assets/cnn.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="8"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="8"] .project-type {
+            color: #22d3ee;
+        }
+
+        .gallery-card[data-project="8"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="8"] .project-tech span {
+            background: rgba(34, 211, 238, 0.2);
+            color: #67e8f9;
+            border: 1px solid rgba(34, 211, 238, 0.4);
+        }
+
+        .gallery-card[data-project="8"] .project-link {
+            color: #a5f3fc;
+        }
+
+        .gallery-card[data-project="8"] .project-number {
+            color: rgba(34, 211, 238, 0.3);
+        }
+
+        /* Project 9 - Complaint Automation */
+        .gallery-card[data-project="9"] {
+            background: linear-gradient(to bottom, rgba(10, 25, 50, 0.85), rgba(5, 15, 40, 0.95)), url('assets/automation.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="9"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="9"] .project-type {
+            color: #3b82f6;
+        }
+
+        .gallery-card[data-project="9"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="9"] .project-tech span {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .gallery-card[data-project="9"] .project-link {
+            color: #60a5fa;
+        }
+
+        .gallery-card[data-project="9"] .project-number {
+            color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Project 10 - GDP Life Expectancy Dashboard */
+        .gallery-card[data-project="10"] {
+            background: linear-gradient(to bottom, rgba(20, 50, 40, 0.85), rgba(15, 40, 35, 0.95)), url('assets/stats.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="10"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="10"] .project-type {
+            color: #c084fc;
+        }
+
+        .gallery-card[data-project="10"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="10"] .project-tech span {
+            background: rgba(192, 132, 252, 0.2);
+            color: #d8b4fe;
+            border: 1px solid rgba(192, 132, 252, 0.4);
+        }
+
+        .gallery-card[data-project="10"] .project-link {
+            color: #a78bfa;
+        }
+
+        .gallery-card[data-project="10"] .project-number {
+            color: rgba(192, 132, 252, 0.3);
+        }
+
+        /* Project 11 - Task Manager App */
+        .gallery-card[data-project="11"] {
+            background: linear-gradient(to bottom, rgba(15, 20, 30, 0.85), rgba(10, 15, 25, 0.95)), url('assets/taskm.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="11"] .project-name {
+            color: #ffffff;
+        }
+
+        .gallery-card[data-project="11"] .project-type {
+            color: #fbbf24;
+        }
+
+        .gallery-card[data-project="11"] .project-desc {
+            color: #e5e5e5;
+        }
+
+        .gallery-card[data-project="11"] .project-tech span {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fcd34d;
+            border: 1px solid rgba(251, 191, 36, 0.4);
+        }
+
+        .gallery-card[data-project="11"] .project-link {
+            color: #3b82f6;
+        }
+
+        .gallery-card[data-project="11"] .project-number {
+            color: rgba(251, 191, 36, 0.3);
+        }
+
+        .site-footer {
+            margin-top: var(--space-2xl);
+        }
+    </style>
+</head>
+
+<body>
+    <main class="projects-page">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back to Home
+        </a>
+
+        <header class="projects-header">
+            <h1>All <span class="accent">Projects</span></h1>
+            <p>A collection of my work showcasing full-stack development, machine learning, mobile apps, and more.</p>
+        </header>
+
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <article class="gallery-card" data-project="1">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">01</span>
+                    <h3 class="project-name">PPP-Q</h3>
+                    <p class="project-type">ML/AI Platform</p>
+                    <p class="project-desc">Multi-output ML system evaluating financial assets' purchasing power
+                        preservation with horizon-aware predictions and real-world commodity indicators.</p>
+                    <div class="project-tech">
+                        <span>LightGBM</span>
+                        <span>XGBoost</span>
+                        <span>FastAPI</span>
+                        <span>Streamlit</span>
+                    </div>
+                    <a href="https://purchasingpower.streamlit.app/" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project
+                        →</a>
+                </div>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="gallery-card" data-project="2">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">02</span>
+                    <h3 class="project-name">CPC</h3>
+                    <p class="project-type">Startup / SaaS Platform</p>
+                    <p class="project-desc">WhatsApp automation platform transforming chat into a website-like sales and
+                        support system for SMEs with workflow-driven customer journeys.</p>
+                    <div class="project-tech">
+                        <span>WhatsApp API</span>
+                        <span>FastAPI</span>
+                        <span>Node.js</span>
+                        <span>Meta Developers</span>
+                    </div>
+                    <a href="https://cpc-nine.vercel.app/" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="gallery-card" data-project="3">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">03</span>
+                    <h3 class="project-name">Aurora</h3>
+                    <p class="project-type">Digital Magazine Platform</p>
+                    <p class="project-desc">University society's digital magazine platform for publishing articles,
+                        announcements, and creative content in a modern, centralized experience.</p>
+                    <div class="project-tech">
+                        <span>Next.js</span>
+                        <span>React</span>
+                        <span>Tailwind CSS</span>
+                        <span>Vercel</span>
+                    </div>
+                    <a href="https://aurora-magazine.vercel.app/" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project
+                        →</a>
+                </div>
+            </article>
+
+            <!-- Project 4 -->
+            <article class="gallery-card" data-project="4">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">04</span>
+                    <h3 class="project-name">BasePy SDK</h3>
+                    <p class="project-type">Blockchain SDK</p>
+                    <p class="project-desc">Production-ready Python SDK for Base blockchain (L2) with 80% fewer RPC
+                        calls, smart batching, and DeFi-ready features.</p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Web3.py</span>
+                        <span>Base L2</span>
+                        <span>Ethereum</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/basepy" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View
+                        Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 5 -->
+            <article class="gallery-card" data-project="5">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">05</span>
+                    <h3 class="project-name">Pomodash</h3>
+                    <p class="project-type">Productivity Web App</p>
+                    <p class="project-desc">Pomodoro productivity dashboard with analytics, focus tracking, streak
+                        monitoring, and activity heatmaps.</p>
+                    <div class="project-tech">
+                        <span>Streamlit</span>
+                        <span>Supabase</span>
+                        <span>Plotly</span>
+                        <span>Pandas</span>
+                    </div>
+                    <a href="https://pomodash.streamlit.app/" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 6 -->
+            <article class="gallery-card" data-project="6">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">06</span>
+                    <h3 class="project-name">Finance Tracker</h3>
+                    <p class="project-type">Mobile App</p>
+                    <p class="project-desc">Personal finance management app with budgets, savings goals, visual
+                        insights, and exportable PDF reports.</p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Flask</span>
+                        <span>PostgreSQL</span>
+                        <span>Supabase</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/Personal-finance-tracker-app" target="_blank"
+                        rel="noopener noreferrer" class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 7 -->
+            <article class="gallery-card" data-project="7">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">07</span>
+                    <h3 class="project-name">YouTube Converter</h3>
+                    <p class="project-type">Desktop App</p>
+                    <p class="project-desc">Cross-platform desktop app for downloading MP3, MP4, and playlists from
+                        YouTube with a modern Kivy UI.</p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Kivy</span>
+                        <span>yt-dlp</span>
+                        <span>PyInstaller</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/YouTube-Converter" target="_blank"
+                        rel="noopener noreferrer" class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 8 -->
+            <article class="gallery-card" data-project="8">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">08</span>
+                    <h3 class="project-name">Roman Numeral CNN</h3>
+                    <p class="project-type">Deep Learning / CV</p>
+                    <p class="project-desc">End-to-end CNN image classifier for Roman numerals with Flask API, analytics
+                        dashboard, and batch prediction support.</p>
+                    <div class="project-tech">
+                        <span>TensorFlow</span>
+                        <span>Keras</span>
+                        <span>Flask</span>
+                        <span>SQLite</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/Image_Classifier_CNN" target="_blank"
+                        rel="noopener noreferrer" class="project-link">View Project →</a>
+                </div>
+            </article>
+            <!-- Project 9 - Projects page only -->
+            <article class="gallery-card" data-project="9">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">09</span>
+                    <h3 class="project-name">Complaint Automation</h3>
+                    <p class="project-type">Automation / AI Pipeline</p>
+                    <p class="project-desc">WhatsApp and JSON-based complaint logging automation with rule-based
+                        workflows, n8n integration, and AI-powered parsing using LLMs.</p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>n8n</span>
+                        <span>LLMs</span>
+                        <span>WhatsApp</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/Complaint-Automation" target="_blank"
+                        rel="noopener noreferrer" class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 10 - Projects page only -->
+            <article class="gallery-card" data-project="10">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">10</span>
+                    <h3 class="project-name">GDP vs Life Expectancy</h3>
+                    <p class="project-type">Data Analytics Dashboard</p>
+                    <p class="project-desc">Interactive statistics dashboard analyzing GDP-life expectancy relationship
+                        with regression, correlation tests, and 20+ visualizations.</p>
+                    <div class="project-tech">
+                        <span>Streamlit</span>
+                        <span>Pandas</span>
+                        <span>SciPy</span>
+                        <span>Seaborn</span>
+                    </div>
+                    <a href="https://lnkd.in/e2i_asyF" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 11 - Projects page only -->
+            <article class="gallery-card" data-project="11">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">11</span>
+                    <h3 class="project-name">Task Manager App</h3>
+                    <p class="project-type">Desktop/Mobile App</p>
+                    <p class="project-desc">Feature-rich task manager with journaling, productivity analytics,
+                        Matplotlib visualizations, and APK-ready Kivy UI.</p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Kivy</span>
+                        <span>Matplotlib</span>
+                        <span>JSON</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/Task-Manager-App" target="_blank"
+                        rel="noopener noreferrer" class="project-link">View Project →</a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Bilal Ahmad. Crafted with passion.</p>
+    </footer>
+
+    <script>
+        // Apply saved theme on page load
+        const savedTheme = localStorage.getItem('portfolio-theme-override');
+        const timeBasedTheme = (() => {
+            const hour = new Date().getHours();
+            return (hour >= 6 && hour < 18) ? 'light' : 'dark';
+        })();
+        const theme = savedTheme || timeBasedTheme;
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+</body>
+
+</html>

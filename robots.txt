@@ -1,0 +1,7 @@
+# Robots.txt for Bilal Ahmad Portfolio
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://bilalahmad.dev/sitemap.xml

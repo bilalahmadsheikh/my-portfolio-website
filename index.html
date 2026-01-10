@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Bilal Ahmad - Creative Developer & AI Enthusiast. Explore my portfolio featuring innovative web experiences, AI projects, and data science work.">
+    <meta name="keywords"
+        content="Bilal Ahmad, Portfolio, Web Developer, AI Developer, GIKI, Three.js, Python, Machine Learning">
+    <meta name="author" content="Bilal Ahmad">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Bilal Ahmad - Creative Developer Portfolio">
+    <meta property="og:description"
+        content="Explore innovative web experiences, AI projects, and data science work by Bilal Ahmad.">
+    <meta property="og:url" content="https://bilalahmad.dev">
+    <meta property="og:site_name" content="Bilal Ahmad Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bilal Ahmad - Creative Developer Portfolio">
+    <meta name="twitter:description" content="Explore innovative web experiences, AI projects, and data science work.">
+
+    <!-- Theme & App -->
+    <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
+
+    <title>Bilal Ahmad | Creative Developer & AI Enthusiast</title>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+
+    <!-- Google Fonts with display=swap for performance -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+
+<body class="theme-loading">
+    <!-- Skip Navigation Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" role="status" aria-label="Loading">
+        <div class="loading-content">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p class="loading-text">Loading Experience...</p>
+        </div>
+    </div>
+
+    <!-- Three.js Canvas Container -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Sunrise Overlay -->
+    <div id="sunrise-overlay"></div>
+
+    <!-- Parallax Background Layers -->
+    <div id="parallax-container">
+        <!-- Layer 1: Far - Stars (dark) / Distant clouds (light) -->
+        <div class="parallax-layer layer-far" data-speed="0.1">
+            <div class="stars-container" id="stars-far"></div>
+            <div class="clouds-container" id="clouds-far"></div>
+        </div>
+
+        <!-- Layer 2: Mid - Nebula (dark) / Clouds (light) -->
+        <div class="parallax-layer layer-mid" data-speed="0.3">
+            <div class="nebula-container"></div>
+            <div class="clouds-container" id="clouds-mid"></div>
+        </div>
+
+        <!-- Layer 3: Near - Particles/Shooting stars -->
+        <div class="parallax-layer layer-near" data-speed="0.6">
+            <div class="particles-container" id="particles"></div>
+        </div>
+
+        <!-- Layer 4: Horizon - Mountains/Aurora -->
+        <div class="parallax-layer layer-horizon">
+            <div class="mountains-container">
+                <svg class="mountains" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                    <path class="mountain mountain-back"
+                        d="M0,320 L0,200 Q360,50 720,180 Q1080,50 1440,200 L1440,320 Z"></path>
+                    <path class="mountain mountain-front"
+                        d="M0,320 L0,240 Q180,120 360,220 Q540,100 720,200 Q900,80 1080,220 Q1260,120 1440,240 L1440,320 Z">
+                    </path>
+                </svg>
+            </div>
+            <div class="aurora-container">
+                <div class="aurora aurora-1"></div>
+                <div class="aurora aurora-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <header class="hero">
+            <div class="hero-content">
+                <span class="hero-greeting"></span>
+                <h1 class="hero-title">
+                    <span class="title-line">Bilal</span>
+                    <span class="title-line title-accent">Ahmad</span>
+                </h1>
+                <p class="hero-tagline">Creative Developer & Digital Craftsman</p>
+                <div class="hero-cta">
+                    <a href="assets/Bilal_Resume.pdf" download="Bilal_Ahmad_Resume.pdf" class="btn btn-primary"
+                        id="resume-btn">
+                        <span>Download Resume</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                        </svg>
+                    </a>
+                    <a href="#about-section" class="btn btn-ghost" id="about-btn">About Me</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/bilal-ahmad-97758a346" target="_blank"
+                        rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/bilalahmadsheikh" target="_blank" rel="noopener noreferrer"
+                        class="social-btn" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Floating Elements -->
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </header>
+
+        <!-- Theme Toggle Hint -->
+        <div class="theme-hint" id="theme-hint">
+            <span>Double-click the <strong id="celestial-name">sun</strong> to toggle theme</span>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </main>
+
+    <!-- ========================================
+         PROJECTS SECTION - Scroll Driven
+    ======================================== -->
+    <section id="projects-section">
+        <!-- Projects Title -->
+        <div class="project-intro" id="project-intro">
+            <div class="intro-container">
+                <!-- Batman Logo -->
+                <div class="batman-logo">
+                    <svg viewBox="0 0 512 200" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M256 10 C230 10, 200 30, 180 60 C160 40, 130 25, 90 25 C60 25, 30 40, 10 70 L0 100 C20 90, 50 85, 80 90 C50 100, 30 130, 40 160 C50 180, 80 190, 120 180 C150 172, 175 150, 190 120 C200 150, 220 175, 256 190 C292 175, 312 150, 322 120 C337 150, 362 172, 392 180 C432 190, 462 180, 472 160 C482 130, 462 100, 432 90 C462 85, 492 90, 512 100 L502 70 C482 40, 452 25, 422 25 C382 25, 352 40, 332 60 C312 30, 282 10, 256 10 Z"
+                            fill="currentColor" />
+                    </svg>
+                </div>
+                <div class="projects-title-wrapper">
+                    <h2 class="projects-title">
+                        <span class="title-reveal">My</span>
+                        <span class="title-reveal title-accent">Projects</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Batmobile Scene -->
+        <div class="road-scene" id="road-scene">
+            <div id="batmobile-container"></div>
+
+            <!-- Project Landmarks -->
+            <div class="landmarks-container" id="landmarks">
+                <!-- Project 1 -->
+                <article class="project-landmark" data-project="1">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">01</span>
+                            <h3 class="project-name">PPP-Q</h3>
+                            <p class="project-type">ML/AI Platform</p>
+                            <p class="project-desc">Multi-output ML system evaluating financial assets' purchasing power
+                                preservation with horizon-aware predictions and real-world commodity indicators.</p>
+                            <div class="project-tech">
+                                <span>LightGBM</span>
+                                <span>XGBoost</span>
+                                <span>FastAPI</span>
+                                <span>Streamlit</span>
+                            </div>
+                            <a href="https://purchasingpower.streamlit.app/" target="_blank" rel="noopener noreferrer"
+                                class="project-link">View
+                                Project →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-landmark" data-project="2">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">02</span>
+                            <h3 class="project-name">CPC</h3>
+                            <p class="project-type">Startup / SaaS Platform</p>
+                            <p class="project-desc">WhatsApp automation platform transforming chat into a website-like
+                                sales and support system for SMEs with workflow-driven customer journeys.</p>
+                            <div class="project-tech">
+                                <span>WhatsApp API</span>
+                                <span>FastAPI</span>
+                                <span>Node.js</span>
+                                <span>Meta Developers</span>
+                            </div>
+                            <a href="https://cpc-nine.vercel.app/" target="_blank" rel="noopener noreferrer"
+                                class="project-link">View Project
+                                →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-landmark" data-project="3">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">03</span>
+                            <h3 class="project-name">Aurora</h3>
+                            <p class="project-type">Digital Magazine Platform</p>
+                            <p class="project-desc">University society's digital magazine platform for publishing
+                                articles, announcements, and creative content in a modern, centralized experience.</p>
+                            <div class="project-tech">
+                                <span>Next.js</span>
+                                <span>React</span>
+                                <span>Tailwind CSS</span>
+                                <span>Vercel</span>
+                            </div>
+                            <a href="https://aurora-magazine.vercel.app/" target="_blank" rel="noopener noreferrer"
+                                class="project-link">View
+                                Project →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="project-landmark" data-project="4">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">04</span>
+                            <h3 class="project-name">BasePy SDK</h3>
+                            <p class="project-type">Blockchain SDK</p>
+                            <p class="project-desc">Production-ready Python SDK for Base blockchain (L2) with 80% fewer
+                                RPC calls, smart batching, and DeFi-ready features.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>Web3.py</span>
+                                <span>Base L2</span>
+                                <span>Ethereum</span>
+                            </div>
+                            <a href="https://github.com/bilalahmadsheikh/basepy" target="_blank"
+                                rel="noopener noreferrer" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 5 -->
+                <article class="project-landmark" data-project="5">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">05</span>
+                            <h3 class="project-name">Pomodash</h3>
+                            <p class="project-type">Productivity Web App</p>
+                            <p class="project-desc">Pomodoro productivity dashboard with analytics, focus tracking,
+                                streak monitoring, and activity heatmaps.</p>
+                            <div class="project-tech">
+                                <span>Streamlit</span>
+                                <span>Supabase</span>
+                                <span>Plotly</span>
+                                <span>Pandas</span>
+                            </div>
+                            <a href="https://pomodash.streamlit.app/" target="_blank" rel="noopener noreferrer"
+                                class="project-link">View Project
+                                →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 6 -->
+                <article class="project-landmark" data-project="6">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">06</span>
+                            <h3 class="project-name">Finance Tracker</h3>
+                            <p class="project-type">Mobile App</p>
+                            <p class="project-desc">Personal finance management app with budgets, savings goals, visual
+                                insights, and exportable PDF reports.</p>
+                            <div class="project-tech">
+                                <span>Flutter</span>
+                                <span>Flask</span>
+                                <span>PostgreSQL</span>
+                                <span>Supabase</span>
+                            </div>
+                            <a href="https://github.com/bilalahmadsheikh/Personal-finance-tracker-app" target="_blank"
+                                rel="noopener noreferrer" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 7 -->
+                <article class="project-landmark" data-project="7">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">07</span>
+                            <h3 class="project-name">YouTube Converter</h3>
+                            <p class="project-type">Desktop App</p>
+                            <p class="project-desc">Cross-platform desktop app for downloading MP3, MP4, and playlists
+                                from YouTube with a modern Kivy UI.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>Kivy</span>
+                                <span>yt-dlp</span>
+                                <span>PyInstaller</span>
+                            </div>
+                            <a href="https://github.com/bilalahmadsheikh/YouTube-Converter" target="_blank"
+                                rel="noopener noreferrer" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 8 -->
+                <article class="project-landmark" data-project="8">
+                    <div class="landmark-marker"></div>
+                    <div class="project-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <span class="project-number">08</span>
+                            <h3 class="project-name">Roman Numeral CNN</h3>
+                            <p class="project-type">Deep Learning / CV</p>
+                            <p class="project-desc">End-to-end CNN image classifier for Roman numerals with Flask API,
+                                analytics dashboard, and batch prediction support.</p>
+                            <div class="project-tech">
+                                <span>TensorFlow</span>
+                                <span>Keras</span>
+                                <span>Flask</span>
+                                <span>SQLite</span>
+                            </div>
+                            <a href="https://github.com/bilalahmadsheikh/Image_Classifier_CNN" target="_blank"
+                                rel="noopener noreferrer" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Projects End -->
+        <div class="projects-end" id="projects-end">
+            <h3>Want to see more?</h3>
+            <a href="projects.html" class="btn btn-primary">View All Projects</a>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education-section" class="education-section">
+        <canvas id="space-canvas"></canvas>
+
+        <div class="education-container">
+            <!-- Education 1: Beaconhouse -->
+            <div class="education-item" data-education="1">
+                <div class="education-left">
+                    <h3 class="education-school">Beaconhouse School System</h3>
+                    <p class="education-degree">O-Level & A-Level</p>
+                    <p class="education-years">2007 – 2023</p>
+                </div>
+                <div class="education-right">
+                    <p class="education-story">I grew up at <strong>Beaconhouse Multan</strong>, where I learned
+                        important life skills like teamwork, curiosity, and how to look busy when the teacher walks by.
+                        That's where I started experimenting, breaking things, fixing them, and occasionally blaming the
+                        system. What began as random curiosity slowly turned into building real projects. Same energy,
+                        same curiosity — just fewer uniforms and much better Wi-Fi now.</p>
+                </div>
+            </div>
+
+            <!-- Education 2: GIKI -->
+            <div class="education-item" data-education="2">
+                <div class="education-left">
+                    <h3 class="education-school">Ghulam Ishaq Khan Institute</h3>
+                    <p class="education-degree">Bachelor of Science in Artificial Intelligence</p>
+                    <p class="education-location">Topi, Pakistan</p>
+                    <p class="education-years">2023 – Present</p>
+                </div>
+                <div class="education-right">
+                    <p class="education-story">I'm currently doing my <strong>Bachelor's in Artificial Intelligence at
+                            GIKI</strong>, where curiosity officially became a full-time job. Between models, deadlines,
+                        and debugging at 3 a.m., I've learned that AI is less about "intelligence" and more about
+                        patience. It's challenging, intense, and exactly where I belong — powered by coffee, code, and
+                        controlled chaos.</p>
+                </div>
+            </div>
+
+            <!-- Experience 1: Corbis Soft -->
+            <div class="education-item" data-education="3">
+                <div class="education-left">
+                    <h3 class="education-school">Corbis Soft</h3>
+                    <p class="education-degree">Internship in AI</p>
+                    <p class="education-years">June – July 2025</p>
+                </div>
+                <div class="education-right">
+                    <p class="education-story">My internship at <strong>Corbis Soft</strong> was like trying to teach AI
+                        to make chai — sometimes it got it right, sometimes it just stared at me blankly. Between
+                        debugging models and pretending to understand fancy AI terms, I learned more than I expected…
+                        and also discovered that coffee is truly an AI developer's best friend. All in all, it was a fun
+                        ride of experiments, code, and the occasional 'oops' moment!</p>
+                </div>
+            </div>
+
+            <!-- Experience 2: ZYP Technologies -->
+            <div class="education-item" data-education="4">
+                <div class="education-left">
+                    <h3 class="education-school">ZYP Technologies</h3>
+                    <p class="education-degree">Data Analyst / Data Science</p>
+                    <p class="education-location">Associated Remote Job</p>
+                    <p class="education-years">Sep – Dec 2025</p>
+                </div>
+                <div class="education-right">
+                    <p class="education-story">My stint at <strong>ZYP Technologies</strong> had me chatting with
+                        spreadsheets more than people. Cleaning messy data and making charts behave became my daily
+                        workout. The best part? Working remotely meant meetings in pajamas and pretending I wasn't glued
+                        to my laptop all day!</p>
+                </div>
+            </div>
+
+            <!-- Certification 1: AWS -->
+            <div class="education-item" data-education="5">
+                <div class="education-left">
+                    <h3 class="education-school">AWS Cloud Solutions Architect</h3>
+                    <p class="education-degree">Certification</p>
+                    <p class="education-years">Sep 2025</p>
+                </div>
+                <div class="education-right">
+                    <p class="education-story">Diving into <strong>AWS</strong> was like trying to organize a cloud that
+                        literally lives in the sky. From spinning up servers to figuring out why something refused to
+                        connect, I learned that cloud architecture is part magic, part patience, and 100% learning on
+                        the fly.</p>
+                </div>
+            </div>
+
+            <!-- Certification 2: ChatGPT -->
+            <div class="education-item" data-education="6">
+                <div class="education-left">
+                    <h3 class="education-school">ChatGPT Advanced Data Analysis</h3>
+                    <p class="education-degree">Certification</p>
+                    <p class="education-years">Aug 2025</p>
+                </div>
+                <div class="education-right">
+                    <p class="education-story">Exploring <strong>ChatGPT's advanced data analysis</strong> felt like
+                        having a super-smart coworker who never sleeps. I spent most of the time asking it tricky
+                        questions, watching it churn answers, and secretly wishing it could also make coffee!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about-section" class="about-section">
+        <div class="about-container">
+            <div class="about-header">
+                <span class="about-greeting">About Me</span>
+                <h2 class="about-name">Bilal Ahmad</h2>
+                <p class="about-motto">"Why be ordinary when you can be extraordinary"</p>
+            </div>
+
+            <div class="about-text">
+                <p>Hi! I'm an undergrad at <strong>GIKI</strong> with a passion for exploring life, learning new things,
+                    and turning ordinary moments into extraordinary experiences. Whether I'm coding a tricky AI project,
+                    hitting a perfect six on the cricket field, or figuring out the next crypto trend — life is all
+                    about <strong>curiosity, creativity</strong>, and a willingness to try things that scare or
+                    challenge you.</p>
+
+                <p>I'm a mix of a <strong>thinker and an adventurer</strong>. On one hand, I love tinkering with Python
+                    and AI, solving problems, and understanding how things work. On the other, I'm a wanderer at heart —
+                    hiking mountains, discovering hidden gems, chasing sunsets, and occasionally turning those moments
+                    into travel vlogs.</p>
+
+                <p>Crypto excites me because it's like life itself: unpredictable, full of lessons, and sometimes
+                    downright chaotic. I believe humans are incredibly adaptable — give us <strong>curiosity,
+                        creativity, and a little humor</strong>, and we can take on almost anything.</p>
+
+                <p>When I'm not coding, playing cricket, or traveling, you'll probably find me brainstorming ideas,
+                    daydreaming about the future, or convincing myself that one day I'll master the <strong>perfect
+                        chai</strong>. In short, I embrace life fully, laugh a lot, learn constantly, and make every
+                    experience count.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>© 2026 Bilal Ahmad. Crafted with passion.</p>
+    </footer>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Three.js -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
