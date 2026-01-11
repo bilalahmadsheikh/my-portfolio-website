@@ -1471,7 +1471,7 @@ function setupEducationScrollAnimations() {
             // Show batmobile again
             if (batmobileModel) {
                 batmobileModel.visible = true;
-                gsap.to(batmobileModel.position, { y: CONFIG.BATMOBILE_POSITION.y, duration: 1, ease: 'power2.out' });
+                gsap.to(batmobileModel.position, { y: -4.8, duration: 1, ease: 'power2.out' });
             }
         }
     });
