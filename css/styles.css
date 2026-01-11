@@ -2094,24 +2094,22 @@ body {
     font-family: var(--font-display);
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 800;
-    /* Cyan/Mint - pops on both dark space and white stars */
-    color: #00ffcc;
+    color: #fff8e7;
     margin-bottom: var(--space-sm);
     text-shadow:
         -2px -2px 0 #0a0a1a,
         2px -2px 0 #0a0a1a,
         -2px 2px 0 #0a0a1a,
         2px 2px 0 #0a0a1a,
-        0 0 30px rgba(0, 255, 204, 0.8),
-        0 0 60px rgba(0, 255, 204, 0.4);
+        0 0 30px rgba(165, 180, 252, 0.8),
+        0 0 60px rgba(165, 180, 252, 0.4);
     letter-spacing: -0.02em;
     line-height: 1.1;
 }
 
 .education-degree {
     font-size: clamp(1rem, 2vw, 1.5rem);
-    /* Electric purple */
-    color: #bf5fff;
+    color: #a5b4fc;
     font-weight: 600;
     margin-bottom: var(--space-xs);
     text-shadow:
@@ -2119,13 +2117,12 @@ body {
         1px -1px 0 #0a0a1a,
         -1px 1px 0 #0a0a1a,
         1px 1px 0 #0a0a1a,
-        0 0 15px rgba(191, 95, 255, 0.6);
+        0 0 20px rgba(165, 180, 252, 0.6);
 }
 
 .education-location {
     font-size: clamp(0.8rem, 1.5vw, 1rem);
-    /* Soft yellow */
-    color: #ffd700;
+    color: #fff8e7;
     margin-bottom: var(--space-xs);
     text-shadow:
         -1px -1px 0 #0a0a1a,
@@ -2136,8 +2133,7 @@ body {
 
 .education-years {
     font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-    /* Light cyan */
-    color: #7df9ff;
+    color: #fff8e7;
     font-weight: 500;
     font-style: italic;
     text-shadow:
@@ -2150,8 +2146,7 @@ body {
 .education-story {
     font-size: clamp(0.9rem, 1.8vw, 1.25rem);
     line-height: 1.8;
-    /* Warm off-white */
-    color: #fff5e6;
+    color: #fff8e7;
     max-width: 500px;
     text-shadow:
         -1px -1px 0 #0a0a1a,
@@ -2161,61 +2156,38 @@ body {
 }
 
 .education-story strong {
-    color: #00ffcc;
+    color: #a5b4fc;
     font-weight: 600;
 }
 
-/* Light theme - Warm sunset palette */
+/* Light theme */
 [data-theme="light"] .education-section {
     background: linear-gradient(to bottom, #0a0a1a, #000);
 }
 
 [data-theme="light"] .education-school {
-    /* Hot coral/orange */
-    color: #ff6b35;
+    color: #fff8e7;
     text-shadow:
         -2px -2px 0 #1a0a0a,
         2px -2px 0 #1a0a0a,
         -2px 2px 0 #1a0a0a,
         2px 2px 0 #1a0a0a,
-        0 0 30px rgba(255, 107, 53, 0.8),
-        0 0 60px rgba(255, 107, 53, 0.4);
+        0 0 30px rgba(212, 160, 0, 0.8),
+        0 0 60px rgba(212, 160, 0, 0.4);
 }
 
 [data-theme="light"] .education-degree {
-    /* Bright magenta */
-    color: #ff1493;
+    color: #d4a000;
     text-shadow:
         -1px -1px 0 #1a0a0a,
         1px -1px 0 #1a0a0a,
         -1px 1px 0 #1a0a0a,
         1px 1px 0 #1a0a0a,
-        0 0 15px rgba(255, 20, 147, 0.6);
-}
-
-[data-theme="light"] .education-location,
-[data-theme="light"] .education-years {
-    /* Bright yellow */
-    color: #ffeb3b;
-    text-shadow:
-        -1px -1px 0 #1a0a0a,
-        1px -1px 0 #1a0a0a,
-        -1px 1px 0 #1a0a0a,
-        1px 1px 0 #1a0a0a;
-}
-
-[data-theme="light"] .education-story {
-    /* Cream white */
-    color: #fffaf0;
-    text-shadow:
-        -1px -1px 0 #1a0a0a,
-        1px -1px 0 #1a0a0a,
-        -1px 1px 0 #1a0a0a,
-        1px 1px 0 #1a0a0a;
+        0 0 20px rgba(212, 160, 0, 0.6);
 }
 
 [data-theme="light"] .education-story strong {
-    color: #ff6b35;
+    color: #d4a000;
 }
 
 /* Mobile responsive - keep side by side, smaller fonts */
