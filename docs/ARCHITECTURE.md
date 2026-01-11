@@ -8,16 +8,16 @@ The portfolio uses **two separate Three.js scenes**:
 
 #### Main Scene (Hero/Projects)
 - **Canvas**: `#three-canvas`
-- **Models**: Sun (`sun.glb`), Moon (`moon.glb`), Batmobile (`batmobile.glb`)
+- **Models**: Sun (`sun.glb`), Moon (`moon_planet.glb`), Batmobile (`batmobile.glb`)
 - **Behavior**: 
   - Sun/Moon switch based on theme
-  - Batmobile appears in projects section with scroll-based rotation
+  - Batmobile appears in projects section with scroll-based movement
 
 #### Space Scene (Education Section)
 - **Canvas**: `#space-canvas`
 - **Model**: Star cluster (`space.glb`)
 - **Behavior**:
-  - Initialized when education section enters viewport
+  - Initialized lazily when education section enters viewport
   - Camera zooms in/out based on scroll progress
   - Fades out when leaving education section
 
@@ -28,26 +28,34 @@ Uses **GSAP ScrollTrigger** for all scroll-based animations:
 ```javascript
 ScrollTrigger.create({
     trigger: element,
-    start: 'top 80%',
+    start: 'top 80%',   // Earlier for mobile
     end: 'bottom top',
+    scrub: 1.5,         // Smooth interpolation
     onEnter: () => { /* show */ },
-    onLeave: () => { /* hide */ },
-    onEnterBack: () => { /* show again */ },
-    onLeaveBack: () => { /* hide again */ }
+    onLeaveBack: () => { /* hide */ }
 });
 ```
 
 ### 3. Theme System
 
 ```javascript
-// Theme determination priority:
+// Theme priority:
 // 1. localStorage override
-// 2. Time-based (6am-7pm = light, else dark)
-
+// 2. Time-based (6am-6pm = light)
 const savedTheme = localStorage.getItem('portfolio-theme-override');
 const timeBasedTheme = getTimeBasedTheme();
 currentTheme = savedTheme || timeBasedTheme;
 ```
+
+### 4. Performance Optimizations
+
+| Optimization | Implementation |
+|--------------|----------------|
+| Mouse throttling | 100ms throttle on raycaster |
+| Passive listeners | `{ passive: true }` on scroll/mouse |
+| RAF batching | Scroll handler uses requestAnimationFrame |
+| GPU hints | `will-change: transform, opacity` |
+| Scrub smoothing | `scrub: 1.5` for animations |
 
 ## Key Functions
 
@@ -55,41 +63,34 @@ currentTheme = savedTheme || timeBasedTheme;
 |----------|---------|
 | `init()` | Main initialization |
 | `setupScene()` | Creates Three.js scene |
-| `loadModels()` | Loads all 3D models |
-| `initSpaceScene()` | Creates education section 3D scene |
-| `animateSpace()` | Render loop for space scene |
-| `setupEducationScrollAnimations()` | Education section scroll triggers |
-| `setupAboutSectionTrigger()` | About section scroll triggers |
+| `loadModels()` | Loads sun/moon models |
+| `initSpaceScene()` | Creates education 3D scene |
+| `animateSpace()` | Render loop for space |
+| `setupEducationScrollAnimations()` | Education scroll triggers |
+| `setupAboutSectionTrigger()` | About section triggers |
 
 ## CSS Architecture
 
 ### Custom Properties
 ```css
 :root {
-    --primary: #6366f1;
-    --bg-primary: #0f0f1a;
-    --text-primary: #ffffff;
-    /* ... */
+    --font-primary: 'Outfit', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
 }
 
-[data-theme="light"] {
-    --primary: #ff6b35;
-    --bg-primary: #fafafa;
-    --text-primary: #1a1a2e;
-    /* ... */
-}
+[data-theme="light"] { /* light theme colors */ }
+[data-theme="dark"] { /* dark theme colors */ }
 ```
 
-### Section Z-Index Layers
-- Loading overlay: 9999
-- Theme toggle: 1001
-- Three.js canvas: 0
-- Education section: 500
-- Space canvas: 0 (fixed position)
+### Education Section Colors
+- **Base text**: White-gold `#fff8e7`
+- **Dark theme accent**: Lavender `#a5b4fc`
+- **Light theme accent**: Gold `#d4a000`
+- **All text**: Dark outlines for visibility
 
-## Performance Considerations
+## Mobile Considerations
 
-1. **Lazy Loading**: Space scene only initializes when education section enters viewport
-2. **Pixel Ratio Limit**: `Math.min(window.devicePixelRatio, 2)` for performance
-3. **Mobile Optimizations**: Reduced scale for 3D models, no split effect on mobile
-4. **Fallback Stars**: If `space.glb` fails to load, procedural stars are generated
+- Sun/moon hide trigger at `top 80%` (earlier)
+- Immediate `visible = false` for reliability
+- No split-apart effect on education items
+- Reduced 3D model scales
