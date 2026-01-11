@@ -2094,42 +2094,63 @@ body {
     font-family: var(--font-display);
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 800;
-    color: #1a1a2e;
+    color: #ffffff;
     margin-bottom: var(--space-sm);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(129, 140, 248, 0.5);
+    text-shadow:
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        2px 2px 0 #000,
+        0 0 20px rgba(129, 140, 248, 0.8);
     letter-spacing: -0.02em;
     line-height: 1.1;
 }
 
 .education-degree {
     font-size: clamp(1rem, 2vw, 1.5rem);
-    color: #818cf8;
+    color: #a5b4fc;
     font-weight: 600;
     margin-bottom: var(--space-xs);
-    text-shadow: 0 0 20px rgba(129, 140, 248, 0.5);
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .education-location {
     font-size: clamp(0.8rem, 1.5vw, 1rem);
-    color: #1a1a2e;
+    color: #e0e0e0;
     margin-bottom: var(--space-xs);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .education-years {
     font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-    color: #2a2a4e;
+    color: #c0c0c0;
     font-weight: 500;
     font-style: italic;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .education-story {
     font-size: clamp(0.9rem, 1.8vw, 1.25rem);
     line-height: 1.8;
-    color: #1a1a2e;
+    color: #ffffff;
     max-width: 500px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .education-story strong {
