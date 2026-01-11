@@ -2094,94 +2094,124 @@ body {
     font-family: var(--font-display);
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 800;
-    color: #ffffff;
+    /* Cyan/Mint - pops on both dark space and white stars */
+    color: #00ffcc;
     margin-bottom: var(--space-sm);
     text-shadow:
-        -2px -2px 0 #000,
-        2px -2px 0 #000,
-        -2px 2px 0 #000,
-        2px 2px 0 #000,
-        0 0 20px rgba(129, 140, 248, 0.8);
+        -2px -2px 0 #0a0a1a,
+        2px -2px 0 #0a0a1a,
+        -2px 2px 0 #0a0a1a,
+        2px 2px 0 #0a0a1a,
+        0 0 30px rgba(0, 255, 204, 0.8),
+        0 0 60px rgba(0, 255, 204, 0.4);
     letter-spacing: -0.02em;
     line-height: 1.1;
 }
 
 .education-degree {
     font-size: clamp(1rem, 2vw, 1.5rem);
-    color: #a5b4fc;
+    /* Electric purple */
+    color: #bf5fff;
     font-weight: 600;
     margin-bottom: var(--space-xs);
     text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+        -1px -1px 0 #0a0a1a,
+        1px -1px 0 #0a0a1a,
+        -1px 1px 0 #0a0a1a,
+        1px 1px 0 #0a0a1a,
+        0 0 15px rgba(191, 95, 255, 0.6);
 }
 
 .education-location {
     font-size: clamp(0.8rem, 1.5vw, 1rem);
-    color: #e0e0e0;
+    /* Soft yellow */
+    color: #ffd700;
     margin-bottom: var(--space-xs);
     text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+        -1px -1px 0 #0a0a1a,
+        1px -1px 0 #0a0a1a,
+        -1px 1px 0 #0a0a1a,
+        1px 1px 0 #0a0a1a;
 }
 
 .education-years {
     font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-    color: #c0c0c0;
+    /* Light cyan */
+    color: #7df9ff;
     font-weight: 500;
     font-style: italic;
     text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+        -1px -1px 0 #0a0a1a,
+        1px -1px 0 #0a0a1a,
+        -1px 1px 0 #0a0a1a,
+        1px 1px 0 #0a0a1a;
 }
 
 .education-story {
     font-size: clamp(0.9rem, 1.8vw, 1.25rem);
     line-height: 1.8;
-    color: #ffffff;
+    /* Warm off-white */
+    color: #fff5e6;
     max-width: 500px;
     text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+        -1px -1px 0 #0a0a1a,
+        1px -1px 0 #0a0a1a,
+        -1px 1px 0 #0a0a1a,
+        1px 1px 0 #0a0a1a;
 }
 
 .education-story strong {
-    color: #a5b4fc;
+    color: #00ffcc;
     font-weight: 600;
 }
 
-/* Light theme adjustments */
+/* Light theme - Warm sunset palette */
 [data-theme="light"] .education-section {
     background: linear-gradient(to bottom, #0a0a1a, #000);
 }
 
 [data-theme="light"] .education-school {
-    color: #1a1a2e;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 107, 53, 0.4);
+    /* Hot coral/orange */
+    color: #ff6b35;
+    text-shadow:
+        -2px -2px 0 #1a0a0a,
+        2px -2px 0 #1a0a0a,
+        -2px 2px 0 #1a0a0a,
+        2px 2px 0 #1a0a0a,
+        0 0 30px rgba(255, 107, 53, 0.8),
+        0 0 60px rgba(255, 107, 53, 0.4);
 }
 
 [data-theme="light"] .education-degree {
-    color: #ff6b35;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    /* Bright magenta */
+    color: #ff1493;
+    text-shadow:
+        -1px -1px 0 #1a0a0a,
+        1px -1px 0 #1a0a0a,
+        -1px 1px 0 #1a0a0a,
+        1px 1px 0 #1a0a0a,
+        0 0 15px rgba(255, 20, 147, 0.6);
 }
 
 [data-theme="light"] .education-location,
 [data-theme="light"] .education-years {
-    color: #3a3a5e;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    /* Bright yellow */
+    color: #ffeb3b;
+    text-shadow:
+        -1px -1px 0 #1a0a0a,
+        1px -1px 0 #1a0a0a,
+        -1px 1px 0 #1a0a0a,
+        1px 1px 0 #1a0a0a;
 }
 
 [data-theme="light"] .education-story {
-    color: #2a2a4e;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    /* Cream white */
+    color: #fffaf0;
+    text-shadow:
+        -1px -1px 0 #1a0a0a,
+        1px -1px 0 #1a0a0a,
+        -1px 1px 0 #1a0a0a,
+        1px 1px 0 #1a0a0a;
 }
 
 [data-theme="light"] .education-story strong {
