@@ -970,16 +970,18 @@ function setupProjectIntroAnimation() {
     // Hide sun/moon when entering projects section
     ScrollTrigger.create({
         trigger: '#projects-section',
-        start: 'top 50%',
+        start: 'top 80%',  // Earlier trigger for mobile
         end: 'bottom top',
         onEnter: () => {
             inProjectsSection = true;
-            // Hide sun/moon with animation
+            // Hide sun/moon immediately and animate
             if (sunModel) {
-                gsap.to(sunModel.scale, { x: 0, y: 0, z: 0, duration: 0.3 });
+                sunModel.visible = false;
+                gsap.set(sunModel.scale, { x: 0, y: 0, z: 0 });
             }
             if (moonModel) {
-                gsap.to(moonModel.scale, { x: 0, y: 0, z: 0, duration: 0.3 });
+                moonModel.visible = false;
+                gsap.set(moonModel.scale, { x: 0, y: 0, z: 0 });
             }
         },
         onLeave: () => {
@@ -991,10 +993,12 @@ function setupProjectIntroAnimation() {
             inProjectsSection = true;
             // Keep sun/moon hidden
             if (sunModel) {
-                gsap.to(sunModel.scale, { x: 0, y: 0, z: 0, duration: 0.3 });
+                sunModel.visible = false;
+                gsap.set(sunModel.scale, { x: 0, y: 0, z: 0 });
             }
             if (moonModel) {
-                gsap.to(moonModel.scale, { x: 0, y: 0, z: 0, duration: 0.3 });
+                moonModel.visible = false;
+                gsap.set(moonModel.scale, { x: 0, y: 0, z: 0 });
             }
         },
         onLeaveBack: () => {
