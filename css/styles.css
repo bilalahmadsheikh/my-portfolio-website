@@ -1010,6 +1010,64 @@ body {
 }
 
 /* ========================================
+   PROJECTS NAVIGATION GUIDE
+======================================== */
+.projects-nav-guide {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--radius-full);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 600;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition: opacity 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.projects-nav-guide.visible {
+    opacity: 1;
+}
+
+.nav-guide-icon {
+    font-size: 1rem;
+    animation: navBounce 1.4s ease-in-out infinite;
+    display: inline-block;
+    will-change: transform;
+}
+
+@keyframes navBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+[data-theme="light"] .projects-nav-guide {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 480px) {
+    .projects-nav-guide {
+        bottom: 16px;
+        right: 16px;
+        font-size: 0.72rem;
+        padding: 8px 14px;
+    }
+}
+
+/* ========================================
    PROJECTS SECTION
 ======================================== */
 #projects-section {
@@ -1241,17 +1299,17 @@ body {
     margin-top: -15vh;
 }
 
-/* Mobile: reduce road scene height */
+/* Mobile: match desktop proportion so each project gets enough scroll space */
 @media (max-width: 768px) {
     .road-scene {
-        min-height: 500vh;
+        min-height: 800vh;
         margin-top: -25vh;
     }
 }
 
 @media (max-width: 480px) {
     .road-scene {
-        min-height: 400vh;
+        min-height: 700vh;
         margin-top: -30vh;
     }
 }
@@ -1331,16 +1389,16 @@ body {
     pointer-events: none;
 }
 
-/* Mobile: reduce landmarks height */
+/* Mobile: match desktop proportion */
 @media (max-width: 768px) {
     .landmarks-container {
-        height: 450vh;
+        height: 750vh;
     }
 }
 
 @media (max-width: 480px) {
     .landmarks-container {
-        height: 350vh;
+        height: 650vh;
     }
 }
 
@@ -1396,7 +1454,7 @@ body {
 /* Mobile responsive */
 @media (max-width: 768px) {
     .landmarks-container {
-        height: 600vh;
+        height: 750vh;
     }
 
     .project-landmark {
@@ -1461,7 +1519,7 @@ body {
 
 @media (max-width: 480px) {
     .landmarks-container {
-        height: 500vh;
+        height: 650vh;
     }
 
     .project-landmark {

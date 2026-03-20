@@ -103,43 +103,43 @@ async function init() {
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    // Load ALL models in parallel
-    await Promise.all([
-        loadModels(),
-        preloadProjectModels()
-    ]);
-
+    // Load ONLY sun/moon first — small files needed for the intro animation.
+    // Batmobile loads in the background while the ~4s intro plays.
+    await loadModels();
     modelsLoaded = true;
-    projectModelsLoaded = true;
 
-    // IMPORTANT: Setup scroll triggers BEFORE hiding loading overlay
-    // This ensures everything is ready when user can interact
-    await setupProjectsSection();
-    scrollTriggersReady = true;
-
-    // Setup interactions
+    // Setup interactions and parallax
     setupClickHandler();
-
-    // Setup parallax background layers
     setupParallaxBackground();
 
-    // Pre-render one frame to ensure GPU has all assets ready
+    // Pre-render one frame to ensure GPU has hero assets ready
     renderer.render(scene, camera);
 
     // Start animation loop
     animate();
 
-    // Hide loading overlay
+    // Hide loading overlay immediately — user sees clean black screen briefly
     if (loadingOverlay) {
         loadingOverlay.classList.add('hidden');
     }
 
-    await delay(CONFIG.INITIAL_DELAY + 300);
+    // Load batmobile + setup scroll triggers in the background.
+    // The intro takes ~4.5s, giving plenty of time before the user can scroll to projects.
+    const projectSetupPromise = preloadProjectModels().then(async () => {
+        projectModelsLoaded = true;
+        await setupProjectsSection();
+        scrollTriggersReady = true;
+    }).catch(console.error);
 
-    // Play intro
+    await delay(CONFIG.INITIAL_DELAY);
+
+    // Play intro animation while batmobile loads in background
     await playBurningPaperIntro();
 
     setTimeout(showThemeHint, 1500);
+
+    // Ensure project setup finishes (should already be done by now)
+    await projectSetupPromise;
 }
 
 function delay(ms) {
@@ -955,8 +955,8 @@ async function preloadProjectModels() {
 // Get responsive batmobile scale based on screen size
 function getBatmobileScale() {
     const width = window.innerWidth;
-    if (width <= 480) return 0.8;      // Small mobile
-    if (width <= 768) return 1.0;      // Mobile
+    if (width <= 480) return 0.45;     // Small mobile — smaller so it doesn't dominate the screen
+    if (width <= 768) return 0.65;     // Mobile
     if (width <= 1024) return 1.4;     // Tablet
     return 1.8;                         // Desktop
 }
@@ -964,8 +964,22 @@ function getBatmobileScale() {
 function setupProjectIntroAnimation() {
     const projectIntro = document.getElementById('project-intro');
     const introContainer = document.querySelector('.intro-container');
+    const navGuide = document.getElementById('projects-nav-guide');
 
     if (!projectIntro) return;
+
+    // Show/hide the "Scroll down to browse projects" nav guide
+    if (navGuide) {
+        ScrollTrigger.create({
+            trigger: '#road-scene',
+            start: 'top 60%',
+            end: 'bottom bottom',
+            onEnter: () => navGuide.classList.add('visible'),
+            onLeave: () => navGuide.classList.remove('visible'),
+            onEnterBack: () => navGuide.classList.add('visible'),
+            onLeaveBack: () => navGuide.classList.remove('visible'),
+        });
+    }
 
     // Hide sun/moon when entering projects section
     ScrollTrigger.create({
@@ -1205,19 +1219,16 @@ function setupProjectCardsAnimation() {
                 const isSmallMobile = window.innerWidth <= 480;
 
                 if (index === activeIndex) {
-                    // Active card: animate from extreme right to extreme left
-                    // Full-width sweep for mobile devices
+                    // Active card: slide in from fully off-screen right → sweep across → exit left
                     let startX, endX;
                     if (isSmallMobile) {
-                        // Start from right edge of screen (accounting for card width ~200px)
-                        // 100vw would put card's left edge at right edge of viewport
-                        startX = 50; // Card appears from right, centered at ~50% from left initially visible
-                        endX = -60;   // Exit fully to left
+                        startX = 100;  // Left edge starts at right viewport edge — fully off-screen
+                        endX = -80;    // Exit fully to left
                     } else if (isMobile) {
-                        startX = 55; // Start more to the right
-                        endX = -65;   // Exit fully to left
+                        startX = 100;  // Fully off-screen right
+                        endX = -80;    // Exit fully to left
                     } else {
-                        startX = 80; // Start far right for desktop
+                        startX = 100;  // Start far right for desktop
                         endX = -100;
                     }
                     const xPercent = startX + (clampedProgress * (endX - startX));

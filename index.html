@@ -59,13 +59,8 @@
     <!-- Skip Navigation Link for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay" role="status" aria-label="Loading">
-        <div class="loading-content">
-            <div class="loading-spinner" aria-hidden="true"></div>
-            <p class="loading-text">Loading Experience...</p>
-        </div>
-    </div>
+    <!-- Loading Overlay (black screen - no spinner) -->
+    <div id="loading-overlay" class="loading-overlay" aria-hidden="true"></div>
 
     <!-- Three.js Canvas Container -->
     <canvas id="three-canvas"></canvas>
@@ -164,10 +159,16 @@
 
         <!-- Scroll Indicator -->
         <div class="scroll-indicator" id="scroll-indicator">
-            <span>Scroll to explore</span>
+            <span>Scroll down to explore</span>
             <div class="scroll-arrow"></div>
         </div>
     </main>
+
+    <!-- Projects Scroll Navigation Guide (shown during projects section) -->
+    <div class="projects-nav-guide" id="projects-nav-guide">
+        <div class="nav-guide-icon">↓</div>
+        <span>Scroll down to browse projects</span>
+    </div>
 
     <!-- ========================================
          PROJECTS SECTION - Scroll Driven
