@@ -1155,6 +1155,23 @@ function setupProjectCardsAnimation() {
         document.body.appendChild(landmark);
     });
 
+    // Add "Read more" toggle on mobile so users can read full descriptions
+    if (window.innerWidth <= 768) {
+        landmarks.forEach(landmark => {
+            const desc = landmark.querySelector('.project-desc');
+            if (!desc) return;
+            const btn = document.createElement('button');
+            btn.className = 'read-more-btn';
+            btn.textContent = 'Read more';
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const expanded = desc.classList.toggle('expanded');
+                btn.textContent = expanded ? 'Read less' : 'Read more';
+            });
+            desc.insertAdjacentElement('afterend', btn);
+        });
+    }
+
     const totalProjects = landmarks.length;
     const projectStartProgress = 0.15;
     const projectScrollRange = 1 - projectStartProgress;
