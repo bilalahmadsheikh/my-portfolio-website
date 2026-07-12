@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Project Golden Age — a privacy-first startup co-founded by Bilal Ahmad, building local-first tools like gulaq that preserve your AI conversations, workspaces, and knowledge.">
+    <meta name="author" content="Bilal Ahmad">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Project Golden Age — The Startup | Bilal Ahmad">
+    <meta property="og:description"
+        content="Local-first tools that preserve human context. Privacy by design — your data stays on your machine.">
+    <meta property="og:url" content="https://bilalahmad.dev/startup">
+    <meta property="og:image" content="https://bilalahmad.dev/assets/pga1.webp">
+
+    <meta name="theme-color" content="#0c0803" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fbf5e6" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
+
+    <title>Startup | Project Golden Age — Bilal Ahmad</title>
+
+    <!-- Apply theme before first paint -->
+    <script src="js/theme-init.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Import map MUST precede any modulepreload/module script, or it is ignored -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "./js/vendor/three.module.min.js",
+            "three/addons/": "./js/vendor/addons/"
+        }
+    }
+    </script>
+    <link rel="modulepreload" href="js/vendor/three.module.min.js">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/startup.css">
+
+    <link rel="icon" type="image/png" href="assets/wolf-logo.png">
+</head>
+
+<body class="sp-body">
+    <!-- Site Navigation -->
+    <nav class="site-nav" aria-label="Primary">
+        <a href="index.html" class="nav-brand" aria-label="Bilal Ahmad — Home">
+            <span class="nav-brand-mark">BA</span>
+            <span class="nav-brand-name">Bilal Ahmad</span>
+        </a>
+        <div class="nav-links">
+            <a href="projects.html" class="nav-btn">Projects</a>
+            <a href="startup.html" class="nav-btn nav-btn-gold" aria-current="page">Startup</a>
+            <a href="index.html#about-section" class="nav-btn">About</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <header class="sp-hero">
+        <canvas id="pga-canvas" data-scene="astrolabe" aria-hidden="true"></canvas>
+
+        <div class="sp-hero-content">
+            <div class="sp-wolf-badge">
+                <img src="assets/wolf-logo.png" alt="" width="44" height="44">
+                <span>Project Golden Age</span>
+            </div>
+
+            <span class="sp-eyebrow">The Startup · Founder &amp; CTO</span>
+
+            <h1 class="sp-title">Preserve the work<br><span class="gold-text">between thoughts.</span></h1>
+
+            <p class="sp-motto">Ponder · Work Hard · Restore</p>
+
+            <p class="sp-sub">A movement to restore the builder spirit — pairing the wisdom of the past with the power
+                of AI. We build local-first tools that keep your AI conversations, workspaces, and knowledge
+                <em>yours</em> — on your machine, not in someone else's cloud.</p>
+
+            <div class="sp-actions">
+                <a href="https://projectgoldenage.vercel.app" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-gold">Visit projectgoldenage.vercel.app ↗</a>
+                <a href="startup/gulaq.html" class="btn btn-outline">Meet gulaq →</a>
+            </div>
+
+            <div class="sp-trust">
+                <span class="sp-trust-item">Free core forever</span>
+                <span class="sp-trust-item">Private by design</span>
+                <span class="sp-trust-item">Your vault stays on your machine</span>
+            </div>
+        </div>
+
+        <div class="sp-scroll-hint" aria-hidden="true">Scroll</div>
+    </header>
+
+    <main>
+        <!-- ═══════════ THE STORY ═══════════ -->
+        <section class="sp-section" aria-label="The story">
+            <div class="sp-inner-narrow sp-reveal">
+                <span class="sp-eyebrow">The Story</span>
+                <h2 class="sp-quote gold-text">"Civilizations rise when knowledge becomes creation."</h2>
+                <p class="sp-lead">Knowledge was once invention, discovery, and architecture — people built to move
+                    civilization forward. Today, our best thinking disappears inside platforms: AI conversations
+                    vanish, browser contexts evaporate, ideas die in closed tabs. <strong>Project Golden Age</strong>
+                    exists to reverse that — tools for research, writing, and memory, each one owned by you, not
+                    rented from a platform.</p>
+                <div class="gold-divider" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <!-- ═══════════ THE CREED ═══════════ -->
+        <section class="sp-section" aria-label="Our creed">
+            <div class="sp-inner">
+                <div class="sp-inner-narrow sp-reveal">
+                    <span class="sp-eyebrow">The Creed</span>
+                    <h2 class="sp-heading">Knowledge should empower people,<br><span class="gold-text">not disappear
+                            inside platforms.</span></h2>
+                </div>
+
+                <div class="creed-grid">
+                    <article class="sp-card creed-card sp-reveal" style="--d: 0s">
+                        <span class="creed-ghost" aria-hidden="true">I</span>
+                        <span class="creed-numeral">I</span>
+                        <h3 class="creed-title">The Civilization Stack</h3>
+                        <p class="creed-desc">gulaq is the first stone. More tools will follow — for research, writing,
+                            and memory — each one owned by you, not rented from a platform.</p>
+                    </article>
+
+                    <article class="sp-card creed-card sp-reveal" style="--d: 0.12s">
+                        <span class="creed-ghost" aria-hidden="true">II</span>
+                        <span class="creed-numeral">II</span>
+                        <h3 class="creed-title">Knowledge Continuity</h3>
+                        <p class="creed-desc">Your ideas should outlive tabs, apps, and subscriptions. What you capture
+                            today stays searchable, portable, and permanent.</p>
+                        <ul class="creed-notes">
+                            <li>No lost context</li>
+                            <li>No broken momentum</li>
+                            <li>No forgotten work</li>
+                        </ul>
+                    </article>
+
+                    <article class="sp-card creed-card sp-reveal" style="--d: 0.24s">
+                        <span class="creed-ghost" aria-hidden="true">III</span>
+                        <span class="creed-numeral">III</span>
+                        <h3 class="creed-title">The Wolf Standard</h3>
+                        <p class="creed-desc">Every product we ship must pass one test: it keeps serving you even if we
+                            disappear.</p>
+                        <ul class="creed-notes">
+                            <li>Local-first</li>
+                            <li>User-owned</li>
+                            <li>Open formats</li>
+                            <li>No lock-in</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ GULAQ ═══════════ -->
+        <section class="sp-section" aria-label="gulaq — first product">
+            <div class="sp-inner-narrow sp-reveal">
+                <div class="gq-ring">
+                    <img src="assets/gulaq-icon.webp" alt="gulaq — the golden vault" width="110" height="110"
+                        loading="lazy" decoding="async">
+                </div>
+
+                <span class="sp-eyebrow">First Product</span>
+                <h2 class="sp-heading"><span class="gold-text">gulaq</span></h2>
+                <p class="sp-lead">A Chrome extension + desktop vault. It saves your browser workspaces and your
+                    ChatGPT, Claude, Gemini, Perplexity &amp; Copilot conversations to your own computer — searchable,
+                    exportable, and restorable in one click. <strong>The core is free forever.</strong></p>
+
+                <div class="sp-stats">
+                    <div class="sp-stat"><span class="sp-stat-val gold-text">5</span><span class="sp-stat-label">AI
+                            Platforms</span></div>
+                    <div class="sp-stat"><span class="sp-stat-val gold-text">1-Click</span><span
+                            class="sp-stat-label">Save &amp; Restore</span></div>
+                    <div class="sp-stat"><span class="sp-stat-val gold-text">100%</span><span class="sp-stat-label">On
+                            Your Machine</span></div>
+                    <div class="sp-stat"><span class="sp-stat-val gold-text">Free</span><span
+                            class="sp-stat-label">Core, Forever</span></div>
+                </div>
+
+                <div class="sp-actions">
+                    <a href="startup/gulaq.html" class="btn btn-gold">Explore gulaq →</a>
+                    <a href="https://projectgoldenage.vercel.app/gulaq" target="_blank" rel="noopener noreferrer"
+                        class="btn btn-outline">gulaq on the Web ↗</a>
+                    <a href="https://chromewebstore.google.com/detail/gulaq/ikjempphbbkjfkpngdigdaefanadnicc"
+                        target="_blank" rel="noopener noreferrer" class="btn btn-outline">Chrome Web Store ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ FOUNDER & TEAM ═══════════ -->
+        <section class="sp-section" aria-label="Founder and team">
+            <div class="sp-inner-narrow sp-reveal">
+                <span class="sp-eyebrow">Founder &amp; Team</span>
+                <h2 class="sp-heading">Founded by a builder who<br><span class="gold-text">refused to lose his
+                        work.</span></h2>
+                <p class="sp-lead"><strong>Project Golden Age</strong> is founded by Bilal Ahmad. Its first product,
+                    <strong>gulaq</strong>, is co-founded with Ammar Zahid.</p>
+                <div class="founders-row">
+                    <a class="founder-chip" href="https://www.linkedin.com/in/bilal-ahmad-97758a346" target="_blank"
+                        rel="noopener noreferrer">Bilal Ahmad&nbsp;<small>· Founder &amp; CTO</small></a>
+                    <a class="founder-chip" href="https://muhammad-ammar-resume-website.vercel.app/" target="_blank"
+                        rel="noopener noreferrer">Ammar Zahid&nbsp;<small>· Co-Founder, gulaq</small></a>
+                </div>
+
+                <div class="gold-divider" aria-hidden="true"></div>
+
+                <p class="sp-lead"><em>"May knowledge become creation.<br>May creation advance civilization.<br>May
+                        the next Golden Age begin."</em></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="sp-footer">
+        <p>© 2026 Project Golden Age · <a href="https://projectgoldenage.vercel.app" target="_blank"
+                rel="noopener noreferrer">projectgoldenage.vercel.app</a> · <a href="index.html">Back to
+                portfolio</a></p>
+    </footer>
+
+    <!-- 3D scene (import map lives in <head>) -->
+    <script type="module" src="js/pga-scene.js"></script>
+
+    <!-- Scroll reveal -->
+    <script>
+        (function () {
+            var els = document.querySelectorAll('.sp-reveal');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach(function (el) { el.classList.add('revealed'); });
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            els.forEach(function (el) { io.observe(el); });
+        }());
+    </script>
+</body>
+
+</html>

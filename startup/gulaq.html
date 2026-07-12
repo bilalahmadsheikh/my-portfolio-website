@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="gulaq — a local-first Chrome extension + desktop vault by Project Golden Age. Save browser workspaces and AI conversations from ChatGPT, Claude, Gemini, Perplexity & Copilot to your own SSD.">
+    <meta name="author" content="Bilal Ahmad">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="gulaq — Your Browser Workspace & AI Conversation Vault">
+    <meta property="og:description"
+        content="Save browser sessions. Capture AI chats from 5 platforms. Search everything locally. Free core forever.">
+    <meta property="og:url" content="https://bilalahmad.dev/startup/gulaq">
+    <meta property="og:image" content="https://bilalahmad.dev/assets/gulaq-icon.webp">
+
+    <meta name="theme-color" content="#0c0803" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fbf5e6" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
+
+    <title>gulaq — AI &amp; Workspace Vault | Project Golden Age</title>
+
+    <!-- Apply theme before first paint -->
+    <script src="../js/theme-init.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Import map MUST precede any modulepreload/module script, or it is ignored -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "../js/vendor/three.module.min.js",
+            "three/addons/": "../js/vendor/addons/"
+        }
+    }
+    </script>
+    <link rel="modulepreload" href="../js/vendor/three.module.min.js">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/startup.css">
+
+    <link rel="icon" type="image/webp" href="../assets/gulaq-icon.webp">
+</head>
+
+<body class="sp-body">
+    <!-- Site Navigation -->
+    <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html" class="nav-brand" aria-label="Bilal Ahmad — Home">
+            <span class="nav-brand-mark">BA</span>
+            <span class="nav-brand-name">Bilal Ahmad</span>
+        </a>
+        <div class="nav-links">
+            <a href="../projects.html" class="nav-btn">Projects</a>
+            <a href="../startup.html" class="nav-btn nav-btn-gold" aria-current="page">Startup</a>
+            <a href="../index.html#about-section" class="nav-btn">About</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <header class="sp-hero">
+        <canvas id="pga-canvas" data-scene="vault" aria-hidden="true"></canvas>
+
+        <div class="sp-hero-content">
+            <div class="gq-ring">
+                <img src="../assets/gulaq-icon.webp" alt="gulaq — the golden vault" width="110" height="110">
+            </div>
+
+            <span class="sp-eyebrow">Project Golden Age · First Product</span>
+
+            <h1 class="sp-title"><span class="gold-text">gulaq</span></h1>
+
+            <p class="sp-motto">Chrome Extension · Tauri Desktop · Local-First</p>
+
+            <p class="sp-sub">Your browser workspace and AI conversation vault. Save browser sessions, capture AI chats
+                from 5 platforms, and search everything locally — nothing ever leaves your machine.</p>
+
+            <div class="sp-actions">
+                <a href="https://chromewebstore.google.com/detail/gulaq/ikjempphbbkjfkpngdigdaefanadnicc"
+                    target="_blank" rel="noopener noreferrer" class="btn btn-gold">Get the Chrome Extension ↗</a>
+                <a href="https://github.com/bilalahmadsheikh/gulaq-releases/releases/latest/download/gulaq-Desktop-Vault_x64-setup.exe"
+                    class="btn btn-outline" download>Download Desktop App</a>
+                <a href="https://projectgoldenage.vercel.app/gulaq" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-outline">gulaq Website ↗</a>
+            </div>
+
+            <div class="sp-stats">
+                <div class="sp-stat"><span class="sp-stat-val gold-text">5</span><span class="sp-stat-label">AI
+                        Platforms</span></div>
+                <div class="sp-stat"><span class="sp-stat-val gold-text">1-Click</span><span
+                        class="sp-stat-label">Save &amp; Restore</span></div>
+                <div class="sp-stat"><span class="sp-stat-val gold-text">100%</span><span class="sp-stat-label">On
+                        Your Machine</span></div>
+                <div class="sp-stat"><span class="sp-stat-val gold-text">Free</span><span class="sp-stat-label">Core,
+                        Forever</span></div>
+            </div>
+        </div>
+
+        <div class="sp-scroll-hint" aria-hidden="true">Scroll</div>
+    </header>
+
+    <main>
+        <!-- ═══════════ THREE PHASES ═══════════ -->
+        <section class="sp-section" aria-label="What gulaq does">
+            <div class="sp-inner">
+                <div class="sp-inner-narrow sp-reveal">
+                    <span class="sp-eyebrow">Three Phases</span>
+                    <h2 class="sp-heading">One tool. <span class="gold-text">Complete control.</span></h2>
+                </div>
+
+                <div class="phase-grid">
+                    <article class="sp-card phase-card sp-reveal">
+                        <span class="phase-num">01</span>
+                        <div>
+                            <h3 class="phase-title">Workspace Manager<span class="phase-badge">Available</span></h3>
+                            <p class="phase-desc">Snapshot your entire browser context — windows, tabs, tab groups,
+                                pinned states, and window geometry. Restore with one click. Up to 500 workspaces × 500
+                                tabs.</p>
+                            <ul class="phase-features">
+                                <li>Save current window, all windows, or single tab</li>
+                                <li>Tab groups with color &amp; collapse state preserved</li>
+                                <li>Preview a workspace before restoring</li>
+                                <li>Save &amp; Close to free RAM without losing context</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="sp-card phase-card sp-reveal" style="--d: 0.1s">
+                        <span class="phase-num">02</span>
+                        <div>
+                            <h3 class="phase-title">AI Chat Vault<span class="phase-badge">Available</span></h3>
+                            <p class="phase-desc">Capture full AI conversations from ChatGPT, Claude, Gemini,
+                                Perplexity &amp; Copilot. Search, filter, rename, export, and re-use past conversations
+                                instantly.</p>
+                            <ul class="phase-features">
+                                <li>Quick, Guided, and Auto capture modes</li>
+                                <li>0–100 completeness scoring per capture</li>
+                                <li>Export to JSON or Markdown</li>
+                                <li>Attach chats to workspaces</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="sp-card phase-card sp-reveal" style="--d: 0.2s">
+                        <span class="phase-num">03</span>
+                        <div>
+                            <h3 class="phase-title">Desktop Vault<span class="phase-badge">Available</span></h3>
+                            <p class="phase-desc">Unlimited local storage via a Rust native host and Tauri desktop
+                                app. SQLite WAL + FTS5 full-text search — backups, atomic writes, 100% offline.</p>
+                            <ul class="phase-features">
+                                <li>SSD-backed SQLite vault (50,000+ chats tested)</li>
+                                <li>FTS5 full-text search with snippets and ranking</li>
+                                <li>ZIP backups with point-in-time snapshots</li>
+                                <li>Atomic writes: temp → fsync → rename</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ PRIVACY ═══════════ -->
+        <section class="sp-section" aria-label="Privacy by design">
+            <div class="sp-inner">
+                <div class="sp-inner-narrow sp-reveal">
+                    <span class="sp-eyebrow">Privacy By Design</span>
+                    <h2 class="sp-heading">Open architecture.<br><span class="gold-text">Closed to the cloud.</span>
+                    </h2>
+                    <p class="sp-lead">Every component runs locally. From capture to storage, nothing leaves your
+                        machine.</p>
+                </div>
+
+                <div class="privacy-grid">
+                    <div class="sp-card privacy-card sp-reveal">
+                        <h3>6 Chrome Permissions Only</h3>
+                        <p>tabs, tabGroups, windows, storage, clipboardWrite, nativeMessaging. No broad host
+                            permissions. No webRequest.</p>
+                    </div>
+                    <div class="sp-card privacy-card sp-reveal" style="--d: 0.08s">
+                        <h3>Zero Outbound Requests</h3>
+                        <p>The vault makes no network calls. Your conversations never touch the internet.</p>
+                    </div>
+                    <div class="sp-card privacy-card sp-reveal" style="--d: 0.16s">
+                        <h3>No Cookie Capture</h3>
+                        <p>Technically impossible by design — missing permissions prevent any auth token or cookie
+                            access.</p>
+                    </div>
+                    <div class="sp-card privacy-card sp-reveal">
+                        <h3>XSS Prevention Built-In</h3>
+                        <p>All user strings HTML-escaped. Content HTML is stripped before native messaging and disk
+                            write.</p>
+                    </div>
+                    <div class="sp-card privacy-card sp-reveal" style="--d: 0.08s">
+                        <h3>Scoped Content Scripts</h3>
+                        <p>Content scripts run only on the 6 supported AI platform origins — an explicit allowlist,
+                            nothing broader.</p>
+                    </div>
+                    <div class="sp-card privacy-card sp-reveal" style="--d: 0.16s">
+                        <h3>Source of Truth on Disk</h3>
+                        <p>The SSD vault is authoritative. Browser storage is only a write-through fallback cache.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ FREE vs PRO ═══════════ -->
+        <section class="sp-section" aria-label="Pricing">
+            <div class="sp-inner">
+                <div class="sp-inner-narrow sp-reveal">
+                    <span class="sp-eyebrow">Pricing</span>
+                    <h2 class="sp-heading">The core is free. <span class="gold-text">Forever.</span></h2>
+                </div>
+
+                <div class="plan-grid">
+                    <div class="sp-card plan-card sp-reveal">
+                        <h3>gulaq Core</h3>
+                        <p class="plan-price"><strong>$0</strong> — free forever</p>
+                        <ul>
+                            <li>Save and restore browser workspaces</li>
+                            <li>Capture chats from 5 supported AI platforms</li>
+                            <li>Local SQLite vault and full-text search</li>
+                            <li>JSON and Markdown exports</li>
+                            <li>Workspace bundles and local backups</li>
+                            <li>All current core functionality, forever</li>
+                        </ul>
+                    </div>
+
+                    <div class="sp-card plan-card plan-pro sp-reveal" style="--d: 0.12s">
+                        <span class="plan-badge">Coming Soon</span>
+                        <h3>gulaq Pro</h3>
+                        <p class="plan-price"><strong>$4</strong> / month — optional</p>
+                        <ul>
+                            <li><strong>Project Brain</strong> — living knowledge graphs across your chats</li>
+                            <li><strong>Ask Your Conversations</strong> — local-first retrieval &amp; summaries</li>
+                            <li><strong>Work Environments</strong> — reusable tool/agent/repo collections</li>
+                            <li><strong>One-click IDE Transfer</strong> — move a whole environment in one action</li>
+                            <li><strong>GitHub Environment Import</strong> — agent-ready repos, previewed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ INSTALL ═══════════ -->
+        <section class="sp-section" aria-label="Installation">
+            <div class="sp-inner">
+                <div class="sp-inner-narrow sp-reveal">
+                    <span class="sp-eyebrow">Get Started</span>
+                    <h2 class="sp-heading">Three steps to <span class="gold-text">permanence.</span></h2>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="sp-card sp-reveal">
+                        <span class="step-circle">1</span>
+                        <h3 class="step-title">Add the Chrome Extension</h3>
+                        <p class="step-desc">Install gulaq from the Chrome Web Store and pin it. The side panel becomes
+                            your workspace manager and chat-capture hub.</p>
+                    </div>
+                    <div class="sp-card sp-reveal" style="--d: 0.1s">
+                        <span class="step-circle">2</span>
+                        <h3 class="step-title">Install the Desktop Vault</h3>
+                        <p class="step-desc">Run the desktop installer. It hosts your local SQLite vault on your SSD
+                            with full-text search, backups, and a timeline view.</p>
+                    </div>
+                    <div class="sp-card sp-reveal" style="--d: 0.2s">
+                        <span class="step-circle">3</span>
+                        <h3 class="step-title">Sign In &amp; Start Saving</h3>
+                        <p class="step-desc">The extension links to your vault over a secure local connection — then
+                            save workspaces and capture AI chats, all stored locally.</p>
+                    </div>
+                </div>
+
+                <div class="sp-inner-narrow sp-reveal" style="margin-top: var(--space-2xl);">
+                    <div class="sp-actions">
+                        <a href="https://chromewebstore.google.com/detail/gulaq/ikjempphbbkjfkpngdigdaefanadnicc"
+                            target="_blank" rel="noopener noreferrer" class="btn btn-gold">Install gulaq — It's Free
+                            ↗</a>
+                        <a href="../startup.html" class="btn btn-outline">← About the Startup</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="sp-footer">
+        <p>© 2026 Project Golden Age · <a href="https://projectgoldenage.vercel.app/gulaq" target="_blank"
+                rel="noopener noreferrer">gulaq on the web</a> · <a href="../index.html">Back to portfolio</a></p>
+    </footer>
+
+    <!-- 3D scene (import map lives in <head>) -->
+    <script type="module" src="../js/pga-scene.js"></script>
+
+    <!-- Scroll reveal -->
+    <script>
+        (function () {
+            var els = document.querySelectorAll('.sp-reveal');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach(function (el) { el.classList.add('revealed'); });
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            els.forEach(function (el) { io.observe(el); });
+        }());
+    </script>
+</body>
+
+</html>

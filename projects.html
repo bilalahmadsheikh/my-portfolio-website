@@ -7,7 +7,9 @@
     <meta name="description" content="Bilal Ahmad's Projects - View all my creative development work">
     <meta name="keywords" content="Bilal Ahmad, Projects, Portfolio, Web Developer">
     <meta name="author" content="Bilal Ahmad">
-    <meta name="theme-color" content="#0a0a0f">
+    <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
 
     <title>Projects | Bilal Ahmad</title>
 
@@ -17,6 +19,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- Favicon - BA initials -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ff6b35'/><stop offset='1' stop-color='%23ffc107'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23g)'/><text x='50' y='55' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-weight='800' font-size='46' fill='white'>BA</text></svg>">
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
@@ -121,6 +127,19 @@
             }
         }
 
+        /* Scroll-reveal: cards rise in as they enter the viewport */
+        .gallery-card.will-reveal {
+            opacity: 0;
+            transform: translateY(28px) scale(0.98);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: var(--reveal-delay, 0s);
+        }
+
+        .gallery-card.will-reveal.revealed {
+            opacity: 1;
+            transform: none;
+        }
+
         /* Static project cards for gallery */
         .gallery-card {
             position: relative;
@@ -223,6 +242,93 @@
 
         .gallery-card .project-link:hover {
             gap: var(--space-sm);
+        }
+
+        /* ── New flagship projects ── */
+        .gallery-card[data-project="ga"] {
+            background: linear-gradient(to bottom, rgba(14, 10, 3, 0.72), rgba(10, 7, 2, 0.93)), url('assets/pga1.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="ga"] .project-name { color: #ffffff; }
+        .gallery-card[data-project="ga"] .project-type { color: #e8b923; }
+        .gallery-card[data-project="ga"] .project-desc { color: #ece5d3; }
+
+        .gallery-card[data-project="ga"] .project-tech span {
+            background: rgba(232, 185, 35, 0.16);
+            color: #f0c94a;
+            border: 1px solid rgba(232, 185, 35, 0.4);
+        }
+
+        .gallery-card[data-project="ga"] .project-link { color: #f0c94a; }
+        .gallery-card[data-project="ga"] .project-number { color: rgba(232, 185, 35, 0.35); }
+
+        .gallery-card[data-project="gq"] {
+            background: linear-gradient(to bottom, rgba(24, 14, 4, 0.7), rgba(16, 9, 2, 0.93)), url('assets/pgavid-poster.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-card[data-project="gq"] .project-name { color: #ffffff; }
+        .gallery-card[data-project="gq"] .project-type { color: #ffc107; }
+        .gallery-card[data-project="gq"] .project-desc { color: #f0e9db; }
+
+        .gallery-card[data-project="gq"] .project-tech span {
+            background: rgba(255, 193, 7, 0.16);
+            color: #ffd166;
+            border: 1px solid rgba(255, 193, 7, 0.4);
+        }
+
+        .gallery-card[data-project="gq"] .project-link { color: #ffd166; }
+        .gallery-card[data-project="gq"] .project-number { color: rgba(255, 193, 7, 0.35); }
+
+        .gallery-card[data-project="ilm"] {
+            background:
+                repeating-linear-gradient(115deg, rgba(52, 211, 153, 0.05) 0 2px, transparent 2px 26px),
+                radial-gradient(ellipse at 80% 10%, rgba(52, 211, 153, 0.22) 0%, transparent 55%),
+                linear-gradient(135deg, #063f30 0%, #032a26 55%, #021d1c 100%);
+        }
+
+        .gallery-card[data-project="ilm"] .project-name { color: #ffffff; }
+        .gallery-card[data-project="ilm"] .project-type { color: #34d399; }
+        .gallery-card[data-project="ilm"] .project-desc { color: #dcf5ea; }
+
+        .gallery-card[data-project="ilm"] .project-tech span {
+            background: rgba(52, 211, 153, 0.16);
+            color: #6ee7b7;
+            border: 1px solid rgba(52, 211, 153, 0.4);
+        }
+
+        .gallery-card[data-project="ilm"] .project-link { color: #6ee7b7; }
+        .gallery-card[data-project="ilm"] .project-number { color: rgba(52, 211, 153, 0.35); }
+
+        .gallery-card[data-project="cm"] {
+            background:
+                repeating-radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.08) 0 1.5px, transparent 1.5px 44px),
+                radial-gradient(ellipse at 82% 18%, rgba(56, 189, 248, 0.25) 0%, transparent 50%),
+                linear-gradient(135deg, #0a1a38 0%, #060f26 55%, #030a1c 100%);
+        }
+
+        .gallery-card[data-project="cm"] .project-name { color: #ffffff; }
+        .gallery-card[data-project="cm"] .project-type { color: #38bdf8; }
+        .gallery-card[data-project="cm"] .project-desc { color: #dbeafe; }
+
+        .gallery-card[data-project="cm"] .project-tech span {
+            background: rgba(56, 189, 248, 0.16);
+            color: #7dd3fc;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .gallery-card[data-project="cm"] .project-link { color: #7dd3fc; }
+        .gallery-card[data-project="cm"] .project-number { color: rgba(56, 189, 248, 0.35); }
+
+        /* Cards can hold multiple links */
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem 1.4rem;
         }
 
         /* Project-specific backgrounds */
@@ -588,6 +694,19 @@
 </head>
 
 <body>
+    <!-- Site Navigation -->
+    <nav class="site-nav" aria-label="Primary">
+        <a href="index.html" class="nav-brand" aria-label="Bilal Ahmad — Home">
+            <span class="nav-brand-mark">BA</span>
+            <span class="nav-brand-name">Bilal Ahmad</span>
+        </a>
+        <div class="nav-links">
+            <a href="projects.html" class="nav-btn" aria-current="page">Projects</a>
+            <a href="startup.html" class="nav-btn nav-btn-gold">Startup</a>
+            <a href="index.html#about-section" class="nav-btn">About</a>
+        </div>
+    </nav>
+
     <main class="projects-page">
         <a href="index.html" class="back-link">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -602,11 +721,101 @@
         </header>
 
         <div class="projects-grid">
-            <!-- Project 1 -->
-            <article class="gallery-card" data-project="1">
+            <!-- Project 1: Project Golden Age -->
+            <article class="gallery-card" data-project="ga">
                 <div class="card-glow"></div>
                 <div class="card-content">
                     <span class="project-number">01</span>
+                    <h3 class="project-name">Project Golden Age</h3>
+                    <p class="project-type">Startup · Founder</p>
+                    <p class="project-desc">A privacy-first startup building local-first tools that preserve human
+                        context — your AI conversations, workspaces, and knowledge, owned by you instead of rented from
+                        platforms.</p>
+                    <div class="project-tech">
+                        <span>Next.js 15</span>
+                        <span>TypeScript</span>
+                        <span>React</span>
+                        <span>Vercel</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://projectgoldenage.vercel.app" target="_blank" rel="noopener noreferrer"
+                            class="project-link">Visit Website ↗</a>
+                        <a href="startup.html" class="project-link">The Story →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2: gulaq -->
+            <article class="gallery-card" data-project="gq">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">02</span>
+                    <h3 class="project-name">gulaq</h3>
+                    <p class="project-type">Chrome Extension + Desktop Vault</p>
+                    <p class="project-desc">Local-first vault that saves browser workspaces and captures AI
+                        conversations from ChatGPT, Claude, Gemini, Perplexity & Copilot — searchable SQLite storage
+                        that never leaves your SSD.</p>
+                    <div class="project-tech">
+                        <span>Chrome MV3</span>
+                        <span>Tauri</span>
+                        <span>Rust</span>
+                        <span>SQLite FTS5</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://projectgoldenage.vercel.app/gulaq" target="_blank" rel="noopener noreferrer"
+                            class="project-link">Visit Website ↗</a>
+                        <a href="startup/gulaq.html" class="project-link">Deep Dive →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 3: IlmSeUrooj -->
+            <article class="gallery-card" data-project="ilm">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">03</span>
+                    <h3 class="project-name">IlmSeUrooj</h3>
+                    <p class="project-type">EdTech Platform</p>
+                    <p class="project-desc">One profile, every Pakistani university. Swipe-based discovery, merit
+                        prediction, application tracking, and a Chrome extension that autofills 17 university portals
+                        in seconds.</p>
+                    <div class="project-tech">
+                        <span>Next.js 16</span>
+                        <span>React 19</span>
+                        <span>Supabase</span>
+                        <span>Chrome MV3</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/IlmSeUrooj" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 4: COMPASS / MCIS -->
+            <article class="gallery-card" data-project="cm">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">04</span>
+                    <h3 class="project-name">COMPASS · MCIS</h3>
+                    <p class="project-type">AI Systems Research</p>
+                    <p class="project-desc">Multi-model orchestration that squeezes 30B-class quality out of a 16GB
+                        no-GPU laptop — a 0.8B router rotating specialist models through RAM for 36% lower peak memory
+                        and 1.9× throughput.</p>
+                    <div class="project-tech">
+                        <span>Qwen2.5</span>
+                        <span>DeepSeek-R1</span>
+                        <span>FAISS</span>
+                        <span>RAG</span>
+                    </div>
+                    <a href="https://github.com/bilalahmadsheikh/compass-mci" target="_blank" rel="noopener noreferrer"
+                        class="project-link">View Project →</a>
+                </div>
+            </article>
+
+            <!-- Project 5 -->
+            <article class="gallery-card" data-project="1">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <span class="project-number">05</span>
                     <h3 class="project-name">PPP-Q</h3>
                     <p class="project-type">ML/AI Platform</p>
                     <p class="project-desc">Multi-output ML system evaluating financial assets' purchasing power
@@ -627,7 +836,7 @@
             <article class="gallery-card" data-project="2">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">02</span>
+                    <span class="project-number">06</span>
                     <h3 class="project-name">CPC</h3>
                     <p class="project-type">Startup / SaaS Platform</p>
                     <p class="project-desc">WhatsApp automation platform transforming chat into a website-like sales and
@@ -647,7 +856,7 @@
             <article class="gallery-card" data-project="3">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">03</span>
+                    <span class="project-number">07</span>
                     <h3 class="project-name">Aurora</h3>
                     <p class="project-type">Digital Magazine Platform</p>
                     <p class="project-desc">University society's digital magazine platform for publishing articles,
@@ -668,7 +877,7 @@
             <article class="gallery-card" data-project="4">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">04</span>
+                    <span class="project-number">08</span>
                     <h3 class="project-name">BasePy SDK</h3>
                     <p class="project-type">Blockchain SDK</p>
                     <p class="project-desc">Production-ready Python SDK for Base blockchain (L2) with 80% fewer RPC
@@ -689,7 +898,7 @@
             <article class="gallery-card" data-project="5">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">05</span>
+                    <span class="project-number">09</span>
                     <h3 class="project-name">Pomodash</h3>
                     <p class="project-type">Productivity Web App</p>
                     <p class="project-desc">Pomodoro productivity dashboard with analytics, focus tracking, streak
@@ -709,7 +918,7 @@
             <article class="gallery-card" data-project="6">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">06</span>
+                    <span class="project-number">10</span>
                     <h3 class="project-name">Finance Tracker</h3>
                     <p class="project-type">Mobile App</p>
                     <p class="project-desc">Personal finance management app with budgets, savings goals, visual
@@ -729,7 +938,7 @@
             <article class="gallery-card" data-project="7">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">07</span>
+                    <span class="project-number">11</span>
                     <h3 class="project-name">YouTube Converter</h3>
                     <p class="project-type">Desktop App</p>
                     <p class="project-desc">Cross-platform desktop app for downloading MP3, MP4, and playlists from
@@ -749,7 +958,7 @@
             <article class="gallery-card" data-project="8">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">08</span>
+                    <span class="project-number">12</span>
                     <h3 class="project-name">Roman Numeral CNN</h3>
                     <p class="project-type">Deep Learning / CV</p>
                     <p class="project-desc">End-to-end CNN image classifier for Roman numerals with Flask API, analytics
@@ -768,7 +977,7 @@
             <article class="gallery-card" data-project="9">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">09</span>
+                    <span class="project-number">13</span>
                     <h3 class="project-name">Complaint Automation</h3>
                     <p class="project-type">Automation / AI Pipeline</p>
                     <p class="project-desc">WhatsApp and JSON-based complaint logging automation with rule-based
@@ -788,7 +997,7 @@
             <article class="gallery-card" data-project="10">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">10</span>
+                    <span class="project-number">14</span>
                     <h3 class="project-name">GDP vs Life Expectancy</h3>
                     <p class="project-type">Data Analytics Dashboard</p>
                     <p class="project-desc">Interactive statistics dashboard analyzing GDP-life expectancy relationship
@@ -808,7 +1017,7 @@
             <article class="gallery-card" data-project="11">
                 <div class="card-glow"></div>
                 <div class="card-content">
-                    <span class="project-number">11</span>
+                    <span class="project-number">15</span>
                     <h3 class="project-name">Task Manager App</h3>
                     <p class="project-type">Desktop/Mobile App</p>
                     <p class="project-desc">Feature-rich task manager with journaling, productivity analytics,
@@ -831,6 +1040,34 @@
     </footer>
 
     <script src="js/theme-init.js"></script>
+    <script>
+        // Staggered scroll-reveal for gallery cards (progressive enhancement)
+        (function () {
+            if (!('IntersectionObserver' in window) ||
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            var cards = document.querySelectorAll('.gallery-card');
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    var card = entry.target;
+                    io.unobserve(card);
+                    card.classList.add('revealed');
+                    // Hand transitions back to the base hover styles once revealed
+                    setTimeout(function () {
+                        card.classList.remove('will-reveal', 'revealed');
+                        card.style.removeProperty('--reveal-delay');
+                    }, 1000);
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+            cards.forEach(function (card, i) {
+                card.classList.add('will-reveal');
+                card.style.setProperty('--reveal-delay', (i % 3) * 90 + 'ms');
+                io.observe(card);
+            });
+        }());
+    </script>
     <script>
         // Read more toggle for gallery cards on mobile
         if (window.innerWidth <= 768) {

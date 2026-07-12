@@ -15,11 +15,11 @@ const CONFIG = {
     DAY_END_HOUR: 18,
 
     // Animation durations (ms)
-    INITIAL_DELAY: 300,
-    CELESTIAL_FADE_DURATION: 800,
-    CELESTIAL_DESCENT_DURATION: 3500,
-    BURN_REVEAL_DURATION: 4000,
-    SWAP_DURATION: 1200,
+    INITIAL_DELAY: 150,
+    CELESTIAL_FADE_DURATION: 450,
+    CELESTIAL_DESCENT_DURATION: 2200,
+    BURN_REVEAL_DURATION: 2600,
+    SWAP_DURATION: 1000,
 
     // 3D Model positions - RESPONSIVE
     getCelestialPosition: () => {
@@ -61,6 +61,9 @@ const CONFIG = {
     // Storage key
     THEME_STORAGE_KEY: 'portfolio-theme-override'
 };
+
+// Respect the user's motion preference — long cinematic intros are skipped
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ========================================
 // STATE
@@ -108,6 +111,9 @@ async function init() {
     await loadModels();
     modelsLoaded = true;
 
+    // The real intro is ready — cancel the black-screen failsafe (see index.html)
+    if (window.__pgFailsafe) clearTimeout(window.__pgFailsafe);
+
     // Setup interactions and parallax
     setupClickHandler();
     setupParallaxBackground();
@@ -124,7 +130,7 @@ async function init() {
     }
 
     // Load batmobile + setup scroll triggers in the background.
-    // The intro takes ~4.5s, giving plenty of time before the user can scroll to projects.
+    // The intro takes ~3s, giving plenty of time before the user can scroll to projects.
     const projectSetupPromise = preloadProjectModels().then(async () => {
         projectModelsLoaded = true;
         await setupProjectsSection();
@@ -170,7 +176,8 @@ function setupRenderer() {
         powerPreference: 'high-performance'
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Cap device pixel ratio harder on mobile — retina x3 rendering is wasted battery
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -226,53 +233,59 @@ function updateCelestialPositions() {
 // ========================================
 // MODEL LOADING
 // ========================================
+function setupCelestialModel(gltfScene, name, scale, pos, startY) {
+    const model = gltfScene;
+    model.scale.setScalar(scale);
+    model.position.set(pos.x, startY, pos.z);
+    model.visible = false;  // Completely hidden until the intro reveals it
+    model.name = name;
+
+    model.traverse((child) => {
+        if (child.isMesh) {
+            child.material = child.material.clone();
+            child.material.transparent = true;
+            child.material.opacity = 0;
+        }
+    });
+    scene.add(model);
+    return model;
+}
+
 async function loadModels() {
     const loader = new GLTFLoader();
     const pos = CONFIG.getCelestialPosition();
     const startY = pos.y + CONFIG.CELESTIAL_START_Y_OFFSET;
+    const isDay = currentTheme === 'light';
 
-    const [sunResult, moonResult] = await Promise.allSettled([
-        loader.loadAsync('./assets/sun.glb'),
-        loader.loadAsync('./assets/moon_planet.glb')
-    ]);
+    // Only the theme's active model gates the intro; the other one
+    // loads in the background and is only needed if the user toggles.
+    const activeUrl = isDay ? './assets/sun.glb' : './assets/moon_planet.glb';
+    const inactiveUrl = isDay ? './assets/moon_planet.glb' : './assets/sun.glb';
 
-    // Setup Sun - COMPLETELY HIDDEN initially
-    if (sunResult.status === 'fulfilled') {
-        sunModel = sunResult.value.scene;
-        sunModel.scale.setScalar(CONFIG.getSunScale());
-        sunModel.position.set(pos.x, startY, pos.z);
-        sunModel.visible = false;  // Completely hidden
-        sunModel.name = 'sun';
-
-        sunModel.traverse((child) => {
-            if (child.isMesh) {
-                child.material = child.material.clone();
-                child.material.transparent = true;
-                child.material.opacity = 0;
-            }
-        });
-        scene.add(sunModel);
-        console.log('Sun model loaded');
+    try {
+        const gltf = await loader.loadAsync(activeUrl);
+        const model = setupCelestialModel(
+            gltf.scene,
+            isDay ? 'sun' : 'moon',
+            isDay ? CONFIG.getSunScale() : CONFIG.getMoonScale(),
+            pos, startY
+        );
+        if (isDay) sunModel = model; else moonModel = model;
+    } catch (error) {
+        console.error('Failed to load celestial model:', error);
     }
 
-    // Setup Moon - COMPLETELY HIDDEN initially
-    if (moonResult.status === 'fulfilled') {
-        moonModel = moonResult.value.scene;
-        moonModel.scale.setScalar(CONFIG.getMoonScale());
-        moonModel.position.set(pos.x, startY, pos.z);
-        moonModel.visible = false;  // Completely hidden
-        moonModel.name = 'moon';
-
-        moonModel.traverse((child) => {
-            if (child.isMesh) {
-                child.material = child.material.clone();
-                child.material.transparent = true;
-                child.material.opacity = 0;
-            }
-        });
-        scene.add(moonModel);
-        console.log('Moon model loaded');
-    }
+    loader.loadAsync(inactiveUrl).then((gltf) => {
+        const model = setupCelestialModel(
+            gltf.scene,
+            isDay ? 'moon' : 'sun',
+            isDay ? CONFIG.getMoonScale() : CONFIG.getSunScale(),
+            pos, startY
+        );
+        if (isDay) moonModel = model; else sunModel = model;
+    }).catch((error) => {
+        console.error('Failed to load celestial model:', error);
+    });
 }
 
 // ========================================
@@ -296,6 +309,23 @@ async function playBurningPaperIntro() {
     const startY = pos.y + CONFIG.CELESTIAL_START_Y_OFFSET;
     const endY = pos.y;
 
+    // Reduced motion — or the failsafe already revealed the page —
+    // skip the cinematic intro and show everything instantly
+    if (REDUCED_MOTION || window.__introFallback) {
+        if (activeModel) {
+            activeModel.position.set(pos.x, endY, pos.z);
+            setModelOpacity(activeModel, 1);
+            activeModel.visible = true;
+        }
+        document.body.classList.remove('theme-loading');
+        overlay.classList.add('revealed');
+        mainContent.style.opacity = '1';
+        mainContent.style.transform = 'none';
+        mainContent.classList.add('visible');
+        updateThemeUI(currentTheme);
+        return;
+    }
+
     // Setup active model - start HIDDEN and at top
     if (activeModel) {
         activeModel.position.set(pos.x, startY, pos.z);
@@ -303,13 +333,16 @@ async function playBurningPaperIntro() {
         activeModel.visible = true;  // Now make visible but with 0 opacity
     }
 
-    // Prepare content for reveal (will fade in during burn)
+    // Prepare content for reveal (will fade in during burn).
+    // Disable the CSS transition while JS drives opacity per frame,
+    // otherwise every update lags 1s behind and the reveal smears.
     document.body.classList.remove('theme-loading');
+    mainContent.style.transition = 'none';
     mainContent.style.opacity = '0';
     mainContent.style.transform = 'translateY(20px)';
 
     // Step 1: Quick fade in celestial at top
-    await fadeInCelestialBody(activeModel, 600);
+    await fadeInCelestialBody(activeModel, CONFIG.CELESTIAL_FADE_DURATION);
 
     // Step 2: ALL AT ONCE - descent + burn + content reveal
     await Promise.all([
@@ -318,8 +351,11 @@ async function playBurningPaperIntro() {
         revealContentGradually(mainContent)
     ]);
 
-    // Final cleanup
+    // Final cleanup - restore the stylesheet transition
     mainContent.classList.add('visible');
+    mainContent.style.transition = '';
+    mainContent.style.opacity = '';
+    mainContent.style.transform = '';
     updateThemeUI(currentTheme);
 }
 
@@ -620,7 +656,6 @@ function checkIntersection() {
     const intersects = raycaster.intersectObjects(objectsToTest, true);
 
     if (intersects.length > 0) {
-        console.log('Double-clicked celestial body! Toggling theme...');
         toggleTheme();
     }
 }
@@ -641,13 +676,30 @@ function hideThemeHint() {
 // ========================================
 // ANIMATION LOOP
 // ========================================
+let heroCanvasHasContent = true;
+
 function animate() {
     requestAnimationFrame(animate);
 
-    if (sunModel && sunModel.visible) {
+    const sunVisible = sunModel && sunModel.visible;
+    const moonVisible = moonModel && moonModel.visible;
+    const batVisible = batmobileModel && batmobileModel.visible;
+
+    // Nothing on screen (e.g. education/about sections) — skip the GPU entirely,
+    // clearing the canvas once so no stale frame lingers
+    if (!sunVisible && !moonVisible && !batVisible) {
+        if (heroCanvasHasContent) {
+            renderer.clear();
+            heroCanvasHasContent = false;
+        }
+        return;
+    }
+    heroCanvasHasContent = true;
+
+    if (sunVisible) {
         sunModel.rotation.y += CONFIG.ROTATION_SPEED;
     }
-    if (moonModel && moonModel.visible) {
+    if (moonVisible) {
         moonModel.rotation.y += CONFIG.ROTATION_SPEED;
     }
 
@@ -682,14 +734,13 @@ function setupParallaxBackground() {
     createParticles();
     createShootingStars();
     setupParallaxScroll();
-    animateParticles();
 }
 
 function createStars() {
     const starsContainer = document.getElementById('stars-far');
     if (!starsContainer) return;
 
-    const starCount = 150;
+    const starCount = window.innerWidth < 768 ? 90 : 150;
 
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
@@ -754,7 +805,7 @@ function createParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
 
-    const particleCount = 30;
+    const particleCount = window.innerWidth < 768 ? 18 : 30;
 
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -765,8 +816,12 @@ function createParticles() {
         particle.style.height = `${size}px`;
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
-        particle.dataset.speedX = (Math.random() - 0.5) * 0.5;
-        particle.dataset.speedY = -0.2 - Math.random() * 0.3;
+        // Drift is a pure CSS animation (see @keyframes particleDrift) —
+        // no per-frame JS, fully GPU-composited
+        particle.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 40}vw`);
+        particle.style.setProperty('--drift-y', `${-(30 + Math.random() * 50)}vh`);
+        particle.style.animationDuration = `${18 + Math.random() * 22}s`;
+        particle.style.animationDelay = `${-Math.random() * 20}s`;
 
         particlesContainer.appendChild(particle);
     }
@@ -786,35 +841,6 @@ function createShootingStars() {
 
         particlesContainer.appendChild(shootingStar);
     }
-}
-
-function animateParticles() {
-    const particles = document.querySelectorAll('.particle');
-
-    function updateParticles() {
-        particles.forEach(particle => {
-            let x = parseFloat(particle.style.left);
-            let y = parseFloat(particle.style.top);
-            const speedX = parseFloat(particle.dataset.speedX);
-            const speedY = parseFloat(particle.dataset.speedY);
-
-            x += speedX;
-            y += speedY;
-
-            // Wrap around screen
-            if (y < -5) y = 105;
-            if (y > 105) y = -5;
-            if (x < -5) x = 105;
-            if (x > 105) x = -5;
-
-            particle.style.left = `${x}%`;
-            particle.style.top = `${y}%`;
-        });
-
-        requestAnimationFrame(updateParticles);
-    }
-
-    updateParticles();
 }
 
 function setupParallaxScroll() {
@@ -873,7 +899,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactBtn = document.getElementById('contact-btn');
     if (contactBtn) {
         contactBtn.addEventListener('click', () => {
-            console.log('Contact clicked');
         });
     }
 });
@@ -896,7 +921,6 @@ async function setupProjectsSection() {
         ignoreMobileResize: true
     });
 
-    console.log('ScrollTrigger registered, setting up animations...');
 
     // Pre-setup all animations
     setupProjectIntroAnimation();
@@ -907,7 +931,6 @@ async function setupProjectsSection() {
     // Pre-calculate all trigger positions
     ScrollTrigger.refresh(true);
 
-    console.log('All project animations setup complete');
 }
 
 // Preload and PRE-POSITION all project assets for instant display
@@ -945,7 +968,6 @@ async function preloadProjectModels() {
         renderer.render(scene, camera);
         batmobileModel.visible = false;
 
-        console.log('Batmobile preloaded and pre-rendered to GPU');
 
     } catch (error) {
         console.error('Error preloading project models:', error);
@@ -1147,7 +1169,6 @@ function setupProjectCardsAnimation() {
         return;
     }
 
-    console.log(`Setting up ${landmarks.length} project cards - FIXED positioning`);
 
     // CRITICAL FIX: Move all landmarks to body so they're truly fixed
     // Remove them from .landmarks-container
@@ -1250,8 +1271,16 @@ function setupProjectCardsAnimation() {
                     }
                     const xPercent = startX + (clampedProgress * (endX - startX));
 
+                    // Fade at the sweep edges so cards dissolve in/out instead of popping
+                    let cardOpacity = 1;
+                    if (clampedProgress < 0.12) {
+                        cardOpacity = clampedProgress / 0.12;
+                    } else if (clampedProgress > 0.88) {
+                        cardOpacity = (1 - clampedProgress) / 0.12;
+                    }
+
                     landmark.style.transform = `translateX(${xPercent}vw) translateY(-50%)`;
-                    landmark.style.opacity = '1';
+                    landmark.style.opacity = Math.max(0, Math.min(1, cardOpacity)).toFixed(3);
                     landmark.style.pointerEvents = 'auto';
                     landmark.classList.add('active');
                 } else if (index < activeIndex) {
@@ -1314,12 +1343,133 @@ function setupScrollIndicatorHide() {
 }
 
 // ========================================
+// JOURNEY TOUR - hands-free auto-scroll through the education section
+// ========================================
+let tourActive = false;
+let tourRafId = null;
+let tourLastTs = 0;
+let railDots = [];
+const TOUR_SPEED = 300;           // px/s cruise through the chapters
+const TOUR_APPROACH_SPEED = 2600; // px/s glide from the gate to the section
+
+function stopJourneyTour() {
+    if (!tourActive) return;
+    tourActive = false;
+    document.body.classList.remove('auto-touring');
+    if (tourRafId !== null) {
+        cancelAnimationFrame(tourRafId);
+        tourRafId = null;
+    }
+    removeTourInterrupts();
+}
+
+// Any manual input hands control back to the user
+function tourInterrupt() {
+    stopJourneyTour();
+}
+
+function addTourInterrupts() {
+    window.addEventListener('wheel', tourInterrupt, { passive: true });
+    window.addEventListener('touchstart', tourInterrupt, { passive: true });
+    window.addEventListener('keydown', tourInterrupt);
+}
+
+function removeTourInterrupts() {
+    window.removeEventListener('wheel', tourInterrupt);
+    window.removeEventListener('touchstart', tourInterrupt);
+    window.removeEventListener('keydown', tourInterrupt);
+}
+
+function startJourneyTour() {
+    const section = document.getElementById('education-section');
+    if (!section || tourActive) return;
+
+    tourActive = true;
+    document.body.classList.add('auto-touring');
+    addTourInterrupts();
+    tourLastTs = 0;
+
+    function step(ts) {
+        if (!tourActive) return;
+        if (!tourLastTs) tourLastTs = ts;
+        const dt = Math.min((ts - tourLastTs) / 1000, 0.05);
+        tourLastTs = ts;
+
+        const sectionTop = section.offsetTop;
+        const target = sectionTop + section.offsetHeight - window.innerHeight;
+        const current = window.scrollY;
+        // Fast glide until the section starts, then a slow cinematic cruise
+        const speed = current < sectionTop - 4 ? TOUR_APPROACH_SPEED : TOUR_SPEED;
+        const next = Math.min(current + speed * dt, target);
+
+        // 'instant' sidesteps the page's smooth scroll-behavior per frame
+        window.scrollTo({ top: next, behavior: 'instant' });
+
+        if (next >= target - 1) {
+            stopJourneyTour();
+            return;
+        }
+        tourRafId = requestAnimationFrame(step);
+    }
+
+    tourRafId = requestAnimationFrame(step);
+}
+
+function updateJourneyRail(progress) {
+    if (!railDots.length) return;
+    const idx = Math.min(railDots.length - 1, Math.floor(progress * railDots.length));
+    railDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+}
+
+function setJourneyRailVisible(visible) {
+    const rail = document.getElementById('journey-rail');
+    if (rail) rail.classList.toggle('visible', visible);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    railDots = Array.from(document.querySelectorAll('.journey-rail .rail-dot'));
+
+    const autoplayBtn = document.getElementById('journey-autoplay');
+    if (autoplayBtn) autoplayBtn.addEventListener('click', startJourneyTour);
+
+    const tourPill = document.getElementById('tour-pill');
+    if (tourPill) tourPill.addEventListener('click', stopJourneyTour);
+
+    // Click a chapter dot to glide straight to that chapter
+    railDots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+            const section = document.getElementById('education-section');
+            if (!section) return;
+            stopJourneyTour();
+            const idx = parseInt(dot.dataset.chapter, 10) || 0;
+            const scrollable = section.offsetHeight - window.innerHeight;
+            const top = section.offsetTop + ((idx + 0.45) / railDots.length) * scrollable;
+            window.scrollTo({ top, behavior: 'smooth' });
+        });
+    });
+});
+
+// ========================================
 // EDUCATION SECTION - SPACE SCENE
 // ========================================
 let spaceScene, spaceCamera, spaceRenderer;
 let spaceModel;
-let spaceAnimationId;
+let spaceAnimationId = null;
 let educationScrollProgress = 0;
+
+// The space render loop only runs while the education section is on screen
+function startSpaceLoop() {
+    if (spaceAnimationId === null && spaceRenderer) {
+        spaceAnimationId = requestAnimationFrame(animateSpace);
+    }
+}
+
+function stopSpaceLoop() {
+    if (spaceAnimationId !== null) {
+        cancelAnimationFrame(spaceAnimationId);
+        spaceAnimationId = null;
+    }
+}
 
 async function initSpaceScene() {
     const spaceCanvas = document.getElementById('space-canvas');
@@ -1339,7 +1489,7 @@ async function initSpaceScene() {
         alpha: true
     });
     spaceRenderer.setSize(window.innerWidth, window.innerHeight);
-    spaceRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    spaceRenderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2));
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -1360,17 +1510,14 @@ async function initSpaceScene() {
             spaceModel.position.set(0, 0, 0);   // Center it
             spaceScene.add(spaceModel);
 
-            // Start render loop
-            animateSpace();
-        }, undefined, (error) => {
-            console.log('Space model loading failed, using fallback stars');
+            startSpaceLoop();
+        }, undefined, () => {
             createFallbackStars();
-            animateSpace();
+            startSpaceLoop();
         });
     } catch (error) {
-        console.log('GLTFLoader failed, using fallback stars');
         createFallbackStars();
-        animateSpace();
+        startSpaceLoop();
     }
 
     // Handle resize
@@ -1412,6 +1559,7 @@ function createFallbackStars() {
 }
 
 function animateSpace() {
+    if (spaceAnimationId === null) return;  // loop was stopped
     spaceAnimationId = requestAnimationFrame(animateSpace);
 
     if (spaceModel) {
@@ -1467,6 +1615,7 @@ function setupEducationScrollAnimations() {
         end: 'bottom top',
         onEnter: () => {
             educationSection.classList.add('active');
+            setJourneyRailVisible(true);
             // Hide batmobile
             if (batmobileModel) {
                 gsap.to(batmobileModel.position, { y: -20, duration: 1, ease: 'power2.in' });
@@ -1476,6 +1625,7 @@ function setupEducationScrollAnimations() {
             if (!spaceScene) {
                 initSpaceScene();
             }
+            startSpaceLoop();
             // Show space canvas
             const spaceCanvas = document.getElementById('space-canvas');
             if (spaceCanvas) {
@@ -1484,9 +1634,13 @@ function setupEducationScrollAnimations() {
         },
         onLeave: () => {
             educationSection.classList.remove('active');
+            setJourneyRailVisible(false);
+            stopSpaceLoop();
         },
         onEnterBack: () => {
             educationSection.classList.add('active');
+            setJourneyRailVisible(true);
+            startSpaceLoop();
             // Show space canvas when coming back from about section
             const spaceCanvas = document.getElementById('space-canvas');
             if (spaceCanvas) {
@@ -1495,6 +1649,8 @@ function setupEducationScrollAnimations() {
         },
         onLeaveBack: () => {
             educationSection.classList.remove('active');
+            setJourneyRailVisible(false);
+            stopSpaceLoop();
             // Hide space canvas when scrolling up out of education section
             const spaceCanvas = document.getElementById('space-canvas');
             if (spaceCanvas) {
@@ -1516,6 +1672,7 @@ function setupEducationScrollAnimations() {
         scrub: 1.5,  // Smoother interpolation
         onUpdate: (self) => {
             educationScrollProgress = self.progress;
+            updateJourneyRail(self.progress);
         }
     });
 
@@ -1619,10 +1776,11 @@ function setupAboutSectionTrigger() {
         start: 'top 90%',
         end: 'bottom top',
         onEnter: () => {
-            // Hide space canvas
+            // Hide space canvas and stop its render loop
             if (spaceCanvas) {
                 gsap.to(spaceCanvas, { opacity: 0, duration: 0.5 });
             }
+            stopSpaceLoop();
             // Remove active class from education section
             if (educationSection) {
                 educationSection.classList.remove('active');
@@ -1633,6 +1791,7 @@ function setupAboutSectionTrigger() {
             if (spaceCanvas) {
                 gsap.to(spaceCanvas, { opacity: 1, duration: 0.5 });
             }
+            startSpaceLoop();
             // Re-add active class
             if (educationSection) {
                 educationSection.classList.add('active');

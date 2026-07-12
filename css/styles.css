@@ -43,6 +43,7 @@
     --space-lg: 2rem;
     --space-xl: 3rem;
     --space-2xl: 5rem;
+    --space-3xl: 7rem;
 
     /* Border Radius */
     --radius-sm: 8px;
@@ -134,6 +135,140 @@ body {
     transition:
         background var(--transition-theme),
         color var(--transition-theme);
+}
+
+/* ========================================
+   SITE NAVIGATION - transparent bar, iOS glass pills
+======================================== */
+.site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px clamp(16px, 4vw, 40px);
+    z-index: 800;
+    /* The bar itself is colorless and click-through */
+    pointer-events: none;
+    background: transparent;
+}
+
+.site-nav > * {
+    pointer-events: auto;
+}
+
+.nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.02rem;
+    letter-spacing: 0.01em;
+    transition: color var(--transition-theme);
+}
+
+.nav-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+    box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.nav-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+.nav-btn:hover {
+    color: var(--text-primary);
+    background: rgba(128, 128, 128, 0.14);
+}
+
+.nav-btn:active {
+    transform: scale(0.94);
+}
+
+.nav-btn[aria-current="page"] {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #ffffff;
+    box-shadow: 0 2px 12px var(--accent-glow);
+}
+
+/* Startup entry gets a golden signature */
+.nav-btn-gold {
+    background: linear-gradient(135deg, #f5d061, #e8b923, #b8860b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.nav-btn-gold:hover {
+    filter: brightness(1.25);
+    text-shadow: 0 0 18px rgba(232, 185, 35, 0.45);
+}
+
+.nav-btn-gold[aria-current="page"] {
+    background: linear-gradient(135deg, #e8b923, #b8860b);
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: #1a1204;
+    box-shadow: 0 2px 14px rgba(232, 185, 35, 0.4);
+}
+
+/* Homepage: nav fades in after the intro reveal */
+.nav-delayed {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 2.3s;
+}
+
+@media (max-width: 600px) {
+    .site-nav {
+        padding: 10px 12px;
+    }
+
+    .nav-brand-name {
+        display: none;
+    }
+
+    .nav-btn {
+        padding: 7px 13px;
+        font-size: 0.82rem;
+    }
 }
 
 /* ========================================
@@ -305,6 +440,29 @@ body {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
+    /* Drift handled entirely by the compositor — no per-frame JS */
+    animation: particleDrift 30s linear infinite;
+    will-change: transform;
+}
+
+@keyframes particleDrift {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--drift-x, 10vw), var(--drift-y, -60vh));
+        opacity: 0;
+    }
 }
 
 /* Light theme particles - golden dust */
@@ -504,87 +662,6 @@ body {
     pointer-events: none;
 }
 
-.loading-content {
-    text-align: center;
-}
-
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--accent-primary, #ff6b35);
-    border-radius: 50%;
-    animation: loadingSpin 1s linear infinite;
-    margin: 0 auto 1.5rem;
-}
-
-@keyframes loadingSpin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.loading-text {
-    color: #ffffff;
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    opacity: 0.7;
-}
-
-/* ========================================
-   LOADER (legacy)
-======================================== */
-#loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-#loader.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.loader-content {
-    text-align: center;
-}
-
-.loader-spinner {
-    width: 60px;
-    height: 60px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: #ff6b35;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto var(--space-md);
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.loader-text {
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.8;
-}
-
 /* ========================================
    MAIN CONTENT
 ======================================== */
@@ -635,7 +712,7 @@ body {
     margin-bottom: var(--space-sm);
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards;
-    animation-delay: 3s;
+    animation-delay: 1.4s;
 }
 
 .hero-title {
@@ -653,11 +730,11 @@ body {
 }
 
 .title-line:nth-child(1) {
-    animation-delay: 3.2s;
+    animation-delay: 1.6s;
 }
 
 .title-line:nth-child(2) {
-    animation-delay: 3.4s;
+    animation-delay: 1.75s;
 }
 
 .title-accent {
@@ -673,7 +750,7 @@ body {
     margin-bottom: var(--space-xl);
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards;
-    animation-delay: 3.6s;
+    animation-delay: 1.9s;
 }
 
 .hero-cta {
@@ -683,7 +760,7 @@ body {
     flex-wrap: wrap;
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards;
-    animation-delay: 3.8s;
+    animation-delay: 2.05s;
 }
 
 @keyframes fadeInUp {
@@ -755,6 +832,9 @@ body {
     gap: var(--space-md);
     margin-top: var(--space-lg);
     pointer-events: auto;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 2.2s;
 }
 
 .social-btn {
@@ -976,7 +1056,7 @@ body {
     gap: var(--space-xs);
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards;
-    animation-delay: 4.5s;
+    animation-delay: 2.8s;
     z-index: 20;
     pointer-events: auto;
 }
@@ -1006,6 +1086,13 @@ body {
 
     50% {
         transform: rotate(45deg) translateY(10px);
+    }
+}
+
+/* Short viewports: the fixed indicator would overlap the hero's social links */
+@media (max-height: 920px) {
+    .scroll-indicator {
+        display: none;
     }
 }
 
@@ -1076,8 +1163,6 @@ body {
     pointer-events: auto;
     /* Clean transparent background - inherits from body */
     background: transparent;
-    /* GPU acceleration hints */
-    will-change: contents;
     contain: layout style;
 }
 
@@ -1402,7 +1487,9 @@ body {
     }
 }
 
-/* Project Landmark - FIXED on screen, animated with transform */
+/* Project Landmark - FIXED on screen, animated with transform.
+   Pure positioning shell — the visual chrome lives on .project-card,
+   keeping cards short enough to fit the viewport with no inner scroll. */
 .project-landmark {
     position: fixed !important;
     top: 50% !important;
@@ -1411,17 +1498,11 @@ body {
     bottom: auto !important;
     width: 420px;
     max-width: 85vw;
-    max-height: 70vh;
+    max-height: 88vh;
     overflow-y: auto;
-    padding: var(--space-lg);
     z-index: 250 !important;
     /* Higher z-index to be above batmobile and clickable */
     pointer-events: none;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     will-change: transform, opacity;
     transition: none;
     /* No CSS transition - JS handles animation */
@@ -1451,16 +1532,15 @@ body {
     }
 }
 
-/* Mobile responsive */
+/* Mobile responsive — keep type at readable sizes (min ~12px) */
 @media (max-width: 768px) {
     .landmarks-container {
         height: 750vh;
     }
 
     .project-landmark {
-        width: 200px;
-        padding: 0.25rem;
-        max-height: 70vh;
+        width: min(320px, 86vw);
+        max-height: 88vh;
         /* DO NOT use !important on transform - it blocks JS animation */
         overflow-y: visible;
     }
@@ -1470,33 +1550,33 @@ body {
     }
 
     .card-content {
-        padding: 0.4rem;
+        padding: 0.9rem;
     }
 
     .project-number {
-        font-size: 0.9rem;
-        margin-bottom: 0.1rem;
-        opacity: 0.15;
+        font-size: 1.4rem;
+        margin-bottom: 0.2rem;
+        opacity: 0.2;
     }
 
     .project-name {
-        font-size: 0.8rem;
-        margin-bottom: 0.1rem;
+        font-size: 1.15rem;
+        margin-bottom: 0.2rem;
     }
 
     .project-type {
-        font-size: 0.5rem;
-        margin-bottom: 0.15rem;
+        font-size: 0.7rem;
+        margin-bottom: 0.35rem;
     }
 
     .project-desc {
-        font-size: 0.6rem;
-        line-height: 1.25;
-        margin-bottom: 0.1rem;
-        /* Limit description to 2 lines */
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 0.25rem;
+        /* Limit description to 3 lines */
         display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -1506,37 +1586,37 @@ body {
         -webkit-line-clamp: unset !important;
         line-clamp: unset !important;
         overflow: visible !important;
-        margin-bottom: 0.15rem;
+        margin-bottom: 0.3rem;
     }
 
     .read-more-btn {
         background: none;
         border: none;
         color: var(--accent-primary);
-        font-size: 0.52rem;
+        font-size: 0.75rem;
         font-weight: 700;
         cursor: pointer;
-        padding: 0;
+        padding: 0.15rem 0;
         display: block;
-        margin-bottom: 0.15rem;
+        margin-bottom: 0.3rem;
         text-decoration: underline;
         pointer-events: auto;
         font-family: var(--font-primary);
     }
 
     .project-tech {
-        margin-bottom: 0.3rem;
-        gap: 0.15rem;
+        margin-bottom: 0.5rem;
+        gap: 0.3rem;
     }
 
     .project-tech span {
-        font-size: 0.45rem;
-        padding: 1px 4px;
+        font-size: 0.68rem;
+        padding: 2px 8px;
     }
 
     .project-link {
-        font-size: 0.6rem;
-        padding-top: 0.1rem;
+        font-size: 0.85rem;
+        padding-top: 0.2rem;
     }
 }
 
@@ -1546,56 +1626,55 @@ body {
     }
 
     .project-landmark {
-        width: 180px;
-        padding: 0.2rem;
-        max-height: 65vh;
+        width: min(280px, 88vw);
+        max-height: 88vh;
         /* DO NOT use !important on transform - it blocks JS animation */
     }
 
     .card-content {
-        padding: 0.35rem;
+        padding: 0.8rem;
     }
 
     .project-number {
-        font-size: 0.75rem;
-        margin-bottom: 0.05rem;
-        opacity: 0.1;
+        font-size: 1.2rem;
+        margin-bottom: 0.15rem;
+        opacity: 0.18;
     }
 
     .project-name {
-        font-size: 0.7rem;
-        margin-bottom: 0.08rem;
+        font-size: 1.05rem;
+        margin-bottom: 0.15rem;
     }
 
     .project-type {
-        font-size: 0.45rem;
-        margin-bottom: 0.1rem;
+        font-size: 0.66rem;
+        margin-bottom: 0.3rem;
     }
 
     .project-desc {
-        font-size: 0.55rem;
-        line-height: 1.2;
-        margin-bottom: 0.1rem;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        margin-bottom: 0.2rem;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
     }
 
     .read-more-btn {
-        font-size: 0.48rem;
+        font-size: 0.72rem;
     }
 
     .project-tech {
-        gap: 0.1rem;
-        margin-bottom: 0.2rem;
+        gap: 0.25rem;
+        margin-bottom: 0.45rem;
     }
 
     .project-tech span {
-        font-size: 0.4rem;
-        padding: 1px 3px;
+        font-size: 0.64rem;
+        padding: 2px 7px;
     }
 
     .project-link {
-        font-size: 0.55rem;
+        font-size: 0.82rem;
     }
 }
 
@@ -1668,8 +1747,56 @@ body {
 
 .card-content {
     position: relative;
-    padding: var(--space-xl);
+    padding: var(--space-lg);
     z-index: 2;
+}
+
+/* Landmark cards: the number is a corner watermark so it costs no height,
+   and spacing is tightened so every card fits on screen without scrolling */
+.project-landmark .project-number {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-md);
+    margin: 0;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    opacity: 0.22;
+}
+
+.project-landmark .project-name {
+    padding-right: 3.2rem;
+}
+
+.project-landmark .project-desc {
+    margin-bottom: var(--space-sm);
+}
+
+.project-landmark .project-tech {
+    margin-bottom: var(--space-md);
+}
+
+/* Short desktop windows: compact further so the card always fits */
+@media (min-width: 769px) and (max-height: 780px) {
+    .project-landmark .card-content {
+        padding: var(--space-md) var(--space-lg);
+    }
+
+    .project-landmark .project-name {
+        font-size: 1.45rem;
+    }
+
+    .project-landmark .project-desc {
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    .project-landmark .project-type {
+        margin-bottom: var(--space-sm);
+    }
+
+    .project-landmark .project-tech span {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
 }
 
 .project-number {
@@ -1739,6 +1866,180 @@ body {
 
 .project-link:hover {
     gap: var(--space-sm);
+}
+
+/* Cards can hold multiple links (website + internal page) */
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1.4rem;
+}
+
+/* ── Project Golden Age — parchment & gold ── */
+.project-landmark[data-project="ga"] .project-card {
+    background: linear-gradient(to bottom, rgba(14, 10, 3, 0.72), rgba(10, 7, 2, 0.93)), url('../assets/pga1.webp');
+    background-size: cover;
+    background-position: center;
+}
+
+.project-landmark[data-project="ga"] .card-content {
+    background: transparent;
+}
+
+.project-landmark[data-project="ga"] .project-name {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ga"] .project-type {
+    color: #e8b923;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ga"] .project-desc {
+    color: #ece5d3;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ga"] .project-tech span {
+    background: rgba(232, 185, 35, 0.16);
+    color: #f0c94a;
+    border: 1px solid rgba(232, 185, 35, 0.4);
+}
+
+.project-landmark[data-project="ga"] .project-link {
+    color: #f0c94a;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ga"] .project-number {
+    color: rgba(232, 185, 35, 0.35);
+}
+
+/* ── gulaq — golden-hour skyline ── */
+.project-landmark[data-project="gq"] .project-card {
+    background: linear-gradient(to bottom, rgba(24, 14, 4, 0.7), rgba(16, 9, 2, 0.93)), url('../assets/pgavid-poster.webp');
+    background-size: cover;
+    background-position: center;
+}
+
+.project-landmark[data-project="gq"] .card-content {
+    background: transparent;
+}
+
+.project-landmark[data-project="gq"] .project-name {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="gq"] .project-type {
+    color: #ffc107;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="gq"] .project-desc {
+    color: #f0e9db;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="gq"] .project-tech span {
+    background: rgba(255, 193, 7, 0.16);
+    color: #ffd166;
+    border: 1px solid rgba(255, 193, 7, 0.4);
+}
+
+.project-landmark[data-project="gq"] .project-link {
+    color: #ffd166;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="gq"] .project-number {
+    color: rgba(255, 193, 7, 0.35);
+}
+
+/* ── IlmSeUrooj — emerald knowledge ── */
+.project-landmark[data-project="ilm"] .project-card {
+    background:
+        repeating-linear-gradient(115deg, rgba(52, 211, 153, 0.05) 0 2px, transparent 2px 26px),
+        radial-gradient(ellipse at 80% 10%, rgba(52, 211, 153, 0.22) 0%, transparent 55%),
+        linear-gradient(135deg, #063f30 0%, #032a26 55%, #021d1c 100%);
+}
+
+.project-landmark[data-project="ilm"] .card-content {
+    background: transparent;
+}
+
+.project-landmark[data-project="ilm"] .project-name {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ilm"] .project-type {
+    color: #34d399;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ilm"] .project-desc {
+    color: #dcf5ea;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ilm"] .project-tech span {
+    background: rgba(52, 211, 153, 0.16);
+    color: #6ee7b7;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+}
+
+.project-landmark[data-project="ilm"] .project-link {
+    color: #6ee7b7;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="ilm"] .project-number {
+    color: rgba(52, 211, 153, 0.35);
+}
+
+/* ── COMPASS · MCIS — deep-space radar ── */
+.project-landmark[data-project="cm"] .project-card {
+    background:
+        repeating-radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.08) 0 1.5px, transparent 1.5px 44px),
+        radial-gradient(ellipse at 82% 18%, rgba(56, 189, 248, 0.25) 0%, transparent 50%),
+        linear-gradient(135deg, #0a1a38 0%, #060f26 55%, #030a1c 100%);
+}
+
+.project-landmark[data-project="cm"] .card-content {
+    background: transparent;
+}
+
+.project-landmark[data-project="cm"] .project-name {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="cm"] .project-type {
+    color: #38bdf8;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="cm"] .project-desc {
+    color: #dbeafe;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="cm"] .project-tech span {
+    background: rgba(56, 189, 248, 0.16);
+    color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.project-landmark[data-project="cm"] .project-link {
+    color: #7dd3fc;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-landmark[data-project="cm"] .project-number {
+    color: rgba(56, 189, 248, 0.35);
 }
 
 /* First project background image */
@@ -1909,174 +2210,6 @@ body {
     color: rgba(94, 234, 212, 0.3);
 }
 
-/* Fifth project (Pomodash) background image - blue/teal productivity theme */
-.project-landmark[data-project="5"] .project-card {
-    background: linear-gradient(to bottom, rgba(50, 80, 100, 0.8), rgba(30, 60, 80, 0.95)), url('../assets/pomodash.png');
-    background-size: cover;
-    background-position: center;
-}
-
-.project-landmark[data-project="5"] .card-content {
-    background: transparent;
-}
-
-/* Light text with yellow accents for project 5 */
-.project-landmark[data-project="5"] .project-name {
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="5"] .project-type {
-    color: #fbbf24;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="5"] .project-desc {
-    color: #e5e5e5;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="5"] .project-tech span {
-    background: rgba(251, 191, 36, 0.2);
-    color: #fcd34d;
-    border: 1px solid rgba(251, 191, 36, 0.4);
-}
-
-.project-landmark[data-project="5"] .project-link {
-    color: #38bdf8;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="5"] .project-number {
-    color: rgba(251, 191, 36, 0.3);
-}
-
-/* Sixth project (Finance Tracker) background image - blue with pink accents */
-.project-landmark[data-project="6"] .project-card {
-    background: linear-gradient(to bottom, rgba(30, 64, 175, 0.85), rgba(20, 50, 140, 0.95)), url('../assets/financetracker.webp');
-    background-size: cover;
-    background-position: center;
-}
-
-.project-landmark[data-project="6"] .card-content {
-    background: transparent;
-}
-
-/* Light text with pink/coral accents for project 6 */
-.project-landmark[data-project="6"] .project-name {
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="6"] .project-type {
-    color: #f472b6;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="6"] .project-desc {
-    color: #e5e5e5;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="6"] .project-tech span {
-    background: rgba(244, 114, 182, 0.2);
-    color: #f9a8d4;
-    border: 1px solid rgba(244, 114, 182, 0.4);
-}
-
-.project-landmark[data-project="6"] .project-link {
-    color: #7dd3fc;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="6"] .project-number {
-    color: rgba(244, 114, 182, 0.3);
-}
-
-/* Seventh project (YouTube Converter) background image - dark with red/blue */
-.project-landmark[data-project="7"] .project-card {
-    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.85), rgba(5, 5, 5, 0.95)), url('../assets/ytmp3.webp');
-    background-size: cover;
-    background-position: center;
-}
-
-.project-landmark[data-project="7"] .card-content {
-    background: transparent;
-}
-
-/* Light text with YouTube red accents for project 7 */
-.project-landmark[data-project="7"] .project-name {
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="7"] .project-type {
-    color: #ef4444;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="7"] .project-desc {
-    color: #e5e5e5;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="7"] .project-tech span {
-    background: rgba(239, 68, 68, 0.2);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.4);
-}
-
-.project-landmark[data-project="7"] .project-link {
-    color: #38bdf8;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="7"] .project-number {
-    color: rgba(239, 68, 68, 0.3);
-}
-
-/* Eighth project (Roman Numeral CNN) background image - dark blue neural network */
-.project-landmark[data-project="8"] .project-card {
-    background: linear-gradient(to bottom, rgba(10, 20, 40, 0.85), rgba(5, 15, 35, 0.95)), url('../assets/cnn.jpeg');
-    background-size: cover;
-    background-position: center;
-}
-
-.project-landmark[data-project="8"] .card-content {
-    background: transparent;
-}
-
-/* Light text with cyan neural network accents for project 8 */
-.project-landmark[data-project="8"] .project-name {
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="8"] .project-type {
-    color: #22d3ee;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="8"] .project-desc {
-    color: #e5e5e5;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="8"] .project-tech span {
-    background: rgba(34, 211, 238, 0.2);
-    color: #67e8f9;
-    border: 1px solid rgba(34, 211, 238, 0.4);
-}
-
-.project-landmark[data-project="8"] .project-link {
-    color: #a5f3fc;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.project-landmark[data-project="8"] .project-number {
-    color: rgba(34, 211, 238, 0.3);
-}
-
 /* Projects End */
 .projects-end {
     min-height: 50vh;
@@ -2092,6 +2225,221 @@ body {
     font-family: var(--font-display);
     font-size: 2rem;
     color: var(--text-primary);
+}
+
+/* ========================================
+   JOURNEY GATE + HANDS-FREE TOUR
+======================================== */
+.journey-gate {
+    position: relative;
+    z-index: 20;
+    min-height: 72vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg);
+    /* Nightfall gradient — blends any theme into the space section below */
+    background: linear-gradient(180deg, transparent 0%, rgba(8, 8, 18, 0.78) 30%, #000 82%);
+}
+
+.journey-gate-inner {
+    max-width: 720px;
+}
+
+.journey-eyebrow {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: #a5b4fc;
+    margin-bottom: var(--space-sm);
+}
+
+.journey-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5.5vw, 3.6rem);
+    font-weight: 800;
+    color: #fff8e7;
+    line-height: 1.12;
+    margin-bottom: var(--space-md);
+    text-shadow: 0 0 40px rgba(165, 180, 252, 0.35);
+}
+
+.journey-accent {
+    background: linear-gradient(135deg, #c7d2fe, #a5b4fc 45%, #818cf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.journey-sub {
+    color: rgba(255, 248, 231, 0.65);
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    line-height: 1.7;
+    margin-bottom: var(--space-xl);
+}
+
+.journey-autoplay {
+    gap: 10px;
+}
+
+.journey-hint {
+    display: block;
+    margin-top: var(--space-md);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 248, 231, 0.42);
+}
+
+/* Chapter rail — right-edge dots while the journey plays */
+.journey-rail {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 650;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.journey-rail.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.rail-dot {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(165, 180, 252, 0.55);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rail-dot:hover {
+    border-color: #c7d2fe;
+    transform: scale(1.2);
+}
+
+.rail-dot.active {
+    background: #a5b4fc;
+    border-color: #a5b4fc;
+    transform: scale(1.35);
+    box-shadow: 0 0 14px rgba(165, 180, 252, 0.8);
+}
+
+.rail-dot span {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-family: var(--font-primary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #fff8e7;
+    background: rgba(10, 10, 26, 0.85);
+    border: 1px solid rgba(165, 180, 252, 0.28);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.rail-dot:hover span,
+.rail-dot.active span {
+    opacity: 1;
+}
+
+[data-theme="light"] .rail-dot {
+    border-color: rgba(212, 160, 0, 0.6);
+}
+
+[data-theme="light"] .rail-dot.active {
+    background: #d4a000;
+    border-color: #d4a000;
+    box-shadow: 0 0 14px rgba(212, 160, 0, 0.8);
+}
+
+@media (max-width: 600px) {
+    .journey-rail {
+        right: 10px;
+        gap: 12px;
+    }
+
+    .rail-dot span {
+        display: none;
+    }
+}
+
+/* Pause pill — visible only during the hands-free tour */
+.tour-pill {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: var(--radius-full);
+    background: rgba(10, 10, 26, 0.85);
+    color: #fff8e7;
+    border: 1px solid rgba(165, 180, 252, 0.4);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 900;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.3s ease, transform 0.15s ease;
+}
+
+body.auto-touring .tour-pill {
+    display: inline-flex;
+}
+
+.tour-pill:hover {
+    border-color: #a5b4fc;
+}
+
+.tour-pill:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* Chapter type badge on each journey item */
+.education-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #a5b4fc;
+    border: 1px solid rgba(165, 180, 252, 0.4);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    margin-bottom: var(--space-sm);
+    background: rgba(165, 180, 252, 0.08);
+}
+
+[data-theme="light"] .education-tag {
+    color: #d4a000;
+    border-color: rgba(212, 160, 0, 0.45);
+    background: rgba(212, 160, 0, 0.08);
 }
 
 /* ========================================
@@ -2295,21 +2643,21 @@ body {
     }
 
     .education-school {
-        font-size: 1rem;
+        font-size: 1.15rem;
     }
 
     .education-degree {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 
     .education-location,
     .education-years {
-        font-size: 0.65rem;
+        font-size: 0.75rem;
     }
 
     .education-story {
-        font-size: 0.7rem;
-        line-height: 1.5;
+        font-size: 0.82rem;
+        line-height: 1.6;
         max-width: 100%;
     }
 }
@@ -2328,6 +2676,100 @@ body {
 .about-container {
     max-width: 800px;
     margin: 0 auto;
+}
+
+/* Profile Photo - circular portrait with theme-aware animated ring */
+@property --ring-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.about-photo {
+    width: clamp(160px, 28vw, 220px);
+    aspect-ratio: 1;
+    margin: 0 auto var(--space-xl);
+    padding: 5px;
+    border-radius: 50%;
+    position: relative;
+    /* Night ring: indigo → violet → pink, slowly orbiting */
+    background: conic-gradient(from var(--ring-angle),
+            #818cf8, #a78bfa, #ec4899, #6366f1, #818cf8);
+    box-shadow:
+        0 0 45px rgba(129, 140, 248, 0.35),
+        0 18px 45px rgba(0, 0, 0, 0.4);
+    animation: ringSpin 9s linear infinite, photoFloat 6s ease-in-out infinite;
+}
+
+/* Soft halo behind the photo */
+.about-photo::before {
+    content: '';
+    position: absolute;
+    inset: -22%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.22) 0%, transparent 65%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Clipping frame keeps the zoomed photo inside the ring */
+.about-photo-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    /* Gap ring between photo and gradient, matches section background */
+    border: 4px solid #12121f;
+}
+
+.about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    display: block;
+    /* Slight zoom keeps the face prominent inside the circle */
+    transform: scale(1.12);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.about-photo:hover img {
+    transform: scale(1.2);
+}
+
+@keyframes ringSpin {
+    to {
+        --ring-angle: 360deg;
+    }
+}
+
+@keyframes photoFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Day ring: sunset orange → amber */
+[data-theme="light"] .about-photo {
+    background: conic-gradient(from var(--ring-angle),
+            #ff6b35, #ffc107, #ff8c5a, #ff4d6d, #ff6b35);
+    box-shadow:
+        0 0 45px rgba(255, 107, 53, 0.3),
+        0 18px 45px rgba(120, 60, 20, 0.18);
+}
+
+[data-theme="light"] .about-photo::before {
+    background: radial-gradient(circle, rgba(255, 150, 60, 0.25) 0%, transparent 65%);
+}
+
+[data-theme="light"] .about-photo-frame {
+    border-color: #fff3ea;
 }
 
 /* Header */
